@@ -1,4 +1,5 @@
-﻿using API_ISDb.Interfaces;
+﻿using API_ISDb.Examples;
+using API_ISDb.Interfaces;
 using API_ISDb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,16 +21,16 @@ namespace API_ISDb.Controllers
         /// Property Declaration  
         /// </summary>  
         /// <returns></returns>  
-        private IUserService _userService;
+        private IUsuarioService _user;
         #endregion
 
         #region Contructor Injector  
         /// <summary>  
         /// Constructor Injection to access all methods or simply DI(Dependency Injection)  
         /// </summary>  
-        public LoginController(IUserService userService)
+        public LoginController(IUsuarioService usuarioService)
         {
-            _userService = userService;
+            _user = usuarioService;
         }
         #endregion
 
@@ -52,22 +53,33 @@ namespace API_ISDb.Controllers
         /// <response code="401">Authorization information is missing or invalid</response>
         /// <response code="404">Login failed</response>
         [AllowAnonymous]
-        [HttpPost("")]
+        [HttpPost("login")]
         [Produces("application/json", Type = typeof(string))]
-        public IActionResult DoLogin([FromBody] Users users)
+        public IActionResult DoLogin([FromBody] ELogin users)
         {
             try
             {
-                string response = _userService.login(users);
-
-                if (!response.Equals(""))
+                if (ModelState.IsValid)
                 {
-                    Program._log.Information("Login successfull");
-                    return Ok(response);
-                }
+                    Usuario usuario = new Usuario();
+                    usuario.Username = users.Username;
+                    usuario.Password = users.Password;
 
-                Program._log.Warning("Login Failed");
-                return NotFound("Login Failed. Username or password not found");
+                    string response = _user.login(usuario);
+
+                    if (!response.Equals(""))
+                    {
+                        Program._log.Information("Login successfull");
+                        return Ok(response);
+                    }
+
+                    Program._log.Warning("Login Failed");
+                    return NotFound("Login Failed. Username or password not found");
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
@@ -79,5 +91,41 @@ namespace API_ISDb.Controllers
             }
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /Register
+        ///     {
+        ///         "Username": "name",
+        ///         "Password": "pass",
+        ///         "Email": "email"
+        ///     }
+        /// </remarks>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("register/")]
+        public ActionResult Register([FromBody] ERegister user)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = new Usuario();
+                usuario.Username = user.Username;
+                usuario.Password = user.Password;
+                usuario.Email = user.Email;
+                usuario.Tipo = "normal";
+                
+                string token = _user.register(usuario);
+                return Ok(token);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

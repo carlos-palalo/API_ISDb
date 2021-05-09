@@ -3,6 +3,7 @@ using API_ISDb.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,9 +28,21 @@ namespace API_ISDb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IUserService, UserService>();
+            services.AddTransient<ISerieService, SerieService>()
+                .AddTransient<IGeneroService, GeneroService>()
+                .AddTransient<IRepartoRoleService, RepartoRoleService>()
+                .AddTransient<IRepartoService, RepartoService>()
+                .AddTransient<IReviewService, ReviewService>()
+                .AddTransient<IRoleService, RoleService>()
+                .AddTransient<ISerieGeneroService, SerieGeneroService>()
+                .AddTransient<ISerieRepartoService, SerieRepartoService>()
+                .AddTransient<IUsuarioService, UsuarioService>()
+                .AddTransient<IGeneralService, GeneralService>()
+                .AddTransient<IImdbService, ImdbService>();
 
-            services.AddHttpContextAccessor();
+            services.AddDbContext<proyectoContext>(options =>
+                options.UseMySQL(Configuration.GetConnectionString("Default")));
+
             services.AddControllers();
             services.AddMvc();
             // Enable Swagger
@@ -67,28 +80,28 @@ namespace API_ISDb
                     }
                 });
 
-                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                //swagger.IncludeXmlComments(xmlPath);
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                swagger.IncludeXmlComments(xmlPath);
+            });
 
-                services.AddAuthentication(option =>
-                {
-                    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-                }).AddJwtBearer(options =>
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["Jwt:Issuer"],
-                        ValidAudience = Configuration["Jwt:Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]  
-                    };
-                });
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]  
+                };
             });
         }
 
@@ -104,12 +117,12 @@ namespace API_ISDb
 
             app.UseRouting();
 
-            /*
-              app.UseCors(x => x
-              .AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader());
-            */
+
+            app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

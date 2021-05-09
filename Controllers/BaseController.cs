@@ -12,9 +12,9 @@ namespace API_ISDb.Controllers
     /// Base Controller
     /// </summary>
     [Produces("application/json")]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     public class BaseController : ControllerBase
     {
     }

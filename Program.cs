@@ -1,19 +1,20 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
 using Serilog;
 using Serilog.Core;
+using System;
 using System.IO;
 using Serilog.Sinks.File.Archive;
 using System.IO.Compression;
+
 namespace API_ISDb
 {
     public class Program
     {
         public static Logger _log;
         //public static IConfiguration Configuration { get; set; }
+
         public static void Main(string[] args)
         {
             IConfiguration Configuration;
@@ -44,6 +45,9 @@ namespace API_ISDb
                     webBuilder.UseStartup<Startup>();
                 });
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static ArchiveHooks MyArchiveHooks => new ArchiveHooks(CompressionLevel.Fastest, "./Logs/app.log");
     }
 }

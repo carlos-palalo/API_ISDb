@@ -1,0 +1,1238 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API_ISDb</name>
+    </assembly>
+    <members>
+        <member name="T:API_ISDb.Controllers.AdminController">
+            <summary>
+            Controllador al que accede sólo el Admin
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.#ctor(API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IRepartoRoleService,API_ISDb.Interfaces.IReviewService,API_ISDb.Interfaces.IRoleService,API_ISDb.Interfaces.ISerieGeneroService,API_ISDb.Interfaces.ISerieRepartoService,API_ISDb.Interfaces.IUsuarioService,API_ISDb.Interfaces.IImdbService)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <param name="reparto"></param>
+            <param name="repartoRole"></param>
+            <param name="review"></param>
+            <param name="role"></param>
+            <param name="serieGenero"></param>
+            <param name="serieReparto"></param>
+            <param name="usuario"></param>
+            <param name="imdb"></param>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GenerateBBDD">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetSeries">
+            <summary>
+            GetSeries method
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetSerie(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostSerie(API_ISDb.Examples.ESerie)">
+            <summary>
+            PostSerie method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Serie
+                {
+                    "Titulo": "string",
+                    "Poster": "string",
+                    "Year": 0,
+                    "Sinopsis": "string",
+                    "Trailer": "string"
+                }
+            </remarks>
+            <param name="ser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutSerie(API_ISDb.Examples.EUSerie)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Serie
+                {
+                    "IdSerie": 0,
+                    "Titulo": "title",
+                    "Poster": "url",
+                    "Year": 0,
+                    "Sinopsis": "string",
+                    "Trailer": "url"
+                }
+            </remarks>
+            <param name="ser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteSerie(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetUsuarios">
+            <summary>
+            GetUsuarios method
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetUsuario(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostUsuario(API_ISDb.Examples.EUsuario)">
+            <summary>
+            PostUsuario method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Usuario
+                {
+                    "Username": "name",
+                    "Password": "pass",
+                    "Email": "email"
+                }
+            </remarks>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutUsuario(API_ISDb.Examples.EUUsuario)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Usuario
+                {
+                    "IdUsuario": 0,
+                    "Username": "name",
+                    "Password": "pass",
+                    "Email": "email",
+                    "Tipo": "tipo",
+                    "Genero": "genero",
+                    "Pais": "pais",
+                    "Nacimiento": "2020-12-25",
+                    "FotoPerfil": "url"
+                }
+            </remarks>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteUsuario(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetReviews">
+            <summary>
+            GetReview method
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetReview(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostReview(API_ISDb.Examples.EReview)">
+            <summary>
+            PostReview method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Review
+                {
+                    "Titulo": "title",
+                    "Descripcion": "string",
+                    "Puntuacion": 0,
+                    "Fecha": "2020-12-21",
+                    "UsuarioIdUsuario": 0,
+                    "SerieIdSerie": 0
+                }
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutReview(API_ISDb.Examples.EUReview)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Review
+                {
+                    "IdReview": 0,
+                    "Titulo": "title",
+                    "Descripcion": "string",
+                    "Puntuacion": 0,
+                    "Fecha": "2020-12-21",
+                    "UsuarioIdUsuario": 0,
+                    "SerieIdSerie": 0
+                }
+            </remarks>
+            <param name="rev"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteReview(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetGeneros">
+            <summary>
+            GetGeneros method
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetGenero(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostGenero(API_ISDb.Examples.EGenero)">
+            <summary>
+            PostGenero method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Genero
+                {
+                    "Nombre": "name"
+                }
+            </remarks>
+            <param name="gen"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutGenero(API_ISDb.Examples.EUGenero)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Genero
+                {
+                    "IdGenero": 0,
+                    "Nombre": "name"
+                }
+            </remarks>
+            <param name="gen"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteGenero(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetSerieGenero">
+            <summary>
+            GetSerieGenero method
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetSerieGenero(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostSerieGenero(API_ISDb.Examples.ESerieGenero)">
+            <summary>
+            PostSerieGenero method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /SerieGenero
+                {
+                    "GeneroIdGenero": 0,
+                    "SerieIdSerie": 0
+                }
+            </remarks>
+            <param name="sergen"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutSerieGenero(API_ISDb.Examples.ESerieGenero,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /SerieGenero
+                {
+                    "GeneroIdGenero": 0,
+                    "SerieIdSerie": 0
+                }
+            </remarks>
+            <param name="sergen"></param>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteSerieGenero(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetRepartos">
+            <summary>
+            GetRepartos method
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetReparto(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostReparto(API_ISDb.Examples.EReparto)">
+            <summary>
+            PostReparto method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Reparto
+                {
+                    "Name": "name",
+                    "Foto": "url"
+                }
+            </remarks>
+            <param name="rep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutReparto(API_ISDb.Examples.EUReparto)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Reparto
+                {
+                    "IdReparto": 0,
+                    "Name": "name",
+                    "Foto": "url"
+                }
+            </remarks>
+            <param name="rep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteReparto(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetRoles">
+            <summary>
+            GetRoles method
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetRole(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostRole(API_ISDb.Examples.ERole)">
+            <summary>
+            PostRole method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Role
+                {
+                    "Nombre": "name"
+                }
+            </remarks>
+            <param name="rol"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutRole(API_ISDb.Examples.EURole)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Role
+                {
+                    "IdRole": 0,
+                    "Nombre": "name"
+                }
+            </remarks>
+            <param name="rol"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteRole(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetRepartoRoles">
+            <summary>
+            GetRepartoRoles method
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetRepartoRole(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="reparto"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostRepartoRole(API_ISDb.Examples.ERepartoRole)">
+            <summary>
+            PostRepartoRole method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /RepartoRole
+                {
+                    "RepartoIdReparto": 0,
+                    "RoleIdRole": 0
+                }
+            </remarks>
+            <param name="repRole"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutRepartoRole(API_ISDb.Examples.ERepartoRole,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /RepartoRole
+                {
+                    "RepartoIdReparto": 0,
+                    "RoleIdRole": 0
+                }
+            </remarks>
+            <param name="repRole"></param>
+            <param name="reparto"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteRepartoRole(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="reparto"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetSerieRepartos">
+            <summary>
+            GetSerieRepartos method
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetSerieReparto(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="reparto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PostSerieReparto(API_ISDb.Examples.ESerieReparto)">
+            <summary>
+            PostSerieReparto method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /SerieReparto
+                {
+                    "SerieIdSerie": 0,
+                    "RepartoIdReparto": 0
+                }
+            </remarks>
+            <param name="serRep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.PutSerieReparto(API_ISDb.Examples.ESerieReparto,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /SerieReparto
+                {
+                    "SerieIdSerie": 0,
+                    "RepartoIdReparto": 0
+                }
+            </remarks>
+            <param name="serRep"></param>
+            <param name="serie"></param>
+            <param name="reparto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.AdminController.DeleteSerieReparto(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="reparto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Controllers.BaseController">
+            <summary>
+            Base Controller
+            </summary>
+        </member>
+        <member name="T:API_ISDb.Controllers.GeneralController">
+            <summary>
+            Controlador al que accede cualquier usuario
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.#ctor(API_ISDb.Interfaces.IUsuarioService,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneralService)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="serie"></param>
+            <param name="general"></param>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.GetAllSeries">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.GetInfoSeries(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.SearchSerie(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.GetUsuario(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.PutUsuario(API_ISDb.Examples.EUUsuario)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Usuario
+                {
+                    "IdUsuario": 0,
+                    "Username": "name",
+                    "Password": "pass",
+                    "Email": "email",
+                    "Tipo": "tipo",
+                    "Genero": "genero",
+                    "Pais": "pais",
+                    "Nacimiento": "2020-12-25",
+                    "FotoPerfil": "url"
+                }
+            </remarks>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.DeleteUsuario(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Controllers.LoginController">
+            <summary>
+            Controller Login
+            </summary>
+        </member>
+        <member name="F:API_ISDb.Controllers.LoginController._user">
+            <summary>  
+            Property Declaration  
+            </summary>  
+            <returns></returns>  
+        </member>
+        <member name="M:API_ISDb.Controllers.LoginController.#ctor(API_ISDb.Interfaces.IUsuarioService)">
+            <summary>  
+            Constructor Injection to access all methods or simply DI(Dependency Injection)  
+            </summary>  
+        </member>
+        <member name="M:API_ISDb.Controllers.LoginController.DoLogin(API_ISDb.Examples.ELogin)">
+            <summary>
+            Login method
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Login
+                {
+                    "username": "your-username",
+                    "password": "your-password"
+                }
+            </remarks>
+            <response code="200">Login success</response>
+            <response code="400">Exception. Bad Request</response>
+            <response code="401">Authorization information is missing or invalid</response>
+            <response code="404">Login failed</response>
+        </member>
+        <member name="M:API_ISDb.Controllers.LoginController.Register(API_ISDb.Examples.ERegister)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Register
+                {
+                    "Username": "name",
+                    "Password": "pass",
+                    "Email": "email"
+                }
+            </remarks>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="P:API_ISDb.Program.MyArchiveHooks">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:API_ISDb.Services.GeneralService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.GeneralService.#ctor(API_ISDb.proyectoContext,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.ISerieGeneroService,API_ISDb.Interfaces.ISerieRepartoService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IRepartoRoleService,API_ISDb.Interfaces.IRoleService)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <param name="serieGenero"></param>
+            <param name="serieReparto"></param>
+            <param name="reparto"></param>
+            <param name="repartoRole"></param>
+            <param name="role"></param>
+        </member>
+        <member name="M:API_ISDb.Services.GeneralService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.GeneralService.GetInfoSerie(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.GeneralService.SearchSerie(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.GeneroService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.GeneroService.#ctor(API_ISDb.proyectoContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:API_ISDb.Services.GeneroService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.GeneroService.GetGenero(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.GeneroService.PostGenero(API_ISDb.Genero)">
+            <summary>
+            
+            </summary>
+            <param name="genero"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.GeneroService.PutGenero(API_ISDb.Genero)">
+            <summary>
+            
+            </summary>
+            <param name="genero"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.GeneroService.DeleteGenero(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.GeneroService.Search(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="cad"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.ImdbService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.ImdbService.#ctor(API_ISDb.proyectoContext,Microsoft.Extensions.Configuration.IConfiguration,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IRepartoRoleService,API_ISDb.Interfaces.IRoleService,API_ISDb.Interfaces.ISerieGeneroService,API_ISDb.Interfaces.ISerieRepartoService)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="config"></param>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <param name="reparto"></param>
+            <param name="repartoRole"></param>
+            <param name="role"></param>
+            <param name="serieGenero"></param>
+            <param name="serieReparto"></param>
+        </member>
+        <member name="M:API_ISDb.Services.ImdbService.Request(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.ImdbService.GenerateBBDD">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.ImdbService.WriteBBDD(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="infoserie"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.ImdbService.WriteItem(System.Collections.Generic.List{API_ISDb.Models.RequestSerie.Item},API_ISDb.Serie,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="items"></param>
+            <param name="ser"></param>
+            <param name="tipo"></param>
+        </member>
+        <member name="M:API_ISDb.Services.ImdbService.WriteActor(System.Collections.Generic.List{API_ISDb.Models.RequestSerie.Actor},API_ISDb.Serie,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="items"></param>
+            <param name="ser"></param>
+            <param name="tipo"></param>
+        </member>
+        <member name="M:API_ISDb.Services.ImdbService.WriteGenero(System.Collections.Generic.List{API_ISDb.Models.RequestSerie.GenreList},API_ISDb.Serie)">
+            <summary>
+            
+            </summary>
+            <param name="items"></param>
+            <param name="ser"></param>
+        </member>
+        <member name="T:API_ISDb.Services.RepartoRoleService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoRoleService.#ctor(API_ISDb.proyectoContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoRoleService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoRoleService.GetRepartoRole(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="reparto"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoRoleService.PostRepartoRole(API_ISDb.RepartoRole)">
+            <summary>
+            
+            </summary>
+            <param name="repartoRole"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoRoleService.PutRepartoRole(API_ISDb.RepartoRole,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="repartoRole"></param>
+            <param name="reparto"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoRoleService.DeleteRepartoRole(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="reparto"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.RepartoService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoService.#ctor(API_ISDb.proyectoContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoService.GetReparto(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoService.PostReparto(API_ISDb.Reparto)">
+            <summary>
+            
+            </summary>
+            <param name="reparto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoService.PutReparto(API_ISDb.Reparto)">
+            <summary>
+            
+            </summary>
+            <param name="reparto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoService.DeleteReparto(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoService.Search(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="cad"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.ReviewService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.ReviewService.#ctor(API_ISDb.proyectoContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:API_ISDb.Services.ReviewService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.ReviewService.GetReview(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.ReviewService.PostReview(API_ISDb.Review)">
+            <summary>
+            
+            </summary>
+            <param name="review"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.ReviewService.PutReview(API_ISDb.Review)">
+            <summary>
+            
+            </summary>
+            <param name="review"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.ReviewService.DeleteReview(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.RoleService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.RoleService.#ctor(API_ISDb.proyectoContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:API_ISDb.Services.RoleService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RoleService.GetRole(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RoleService.PostRole(API_ISDb.Role)">
+            <summary>
+            
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RoleService.PutRole(API_ISDb.Role)">
+            <summary>
+            
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RoleService.DeleteRole(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RoleService.Search(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="cad"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.SerieGeneroService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.SerieGeneroService.#ctor(API_ISDb.proyectoContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:API_ISDb.Services.SerieGeneroService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieGeneroService.GetSerieGenero(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieGeneroService.PostSerieGenero(API_ISDb.SerieGenero)">
+            <summary>
+            
+            </summary>
+            <param name="serieGenero"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieGeneroService.PutSerieGenero(API_ISDb.SerieGenero,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serieGenero"></param>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieGeneroService.DeleteSerieGenero(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="genero"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.SerieRepartoService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.SerieRepartoService.#ctor(API_ISDb.proyectoContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:API_ISDb.Services.SerieRepartoService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieRepartoService.GetSerieReparto(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="reparto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieRepartoService.PostSerieReparto(API_ISDb.SerieReparto)">
+            <summary>
+            
+            </summary>
+            <param name="serieReparto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieRepartoService.PutSerieReparto(API_ISDb.SerieReparto,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serieReparto"></param>
+            <param name="serie"></param>
+            <param name="reparto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieRepartoService.DeleteSerieReparto(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <param name="reparto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.SerieService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.SerieService.#ctor(API_ISDb.proyectoContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:API_ISDb.Services.SerieService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieService.GetSerie(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieService.SearchSerie(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieService.Search(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="cad"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieService.PostSerie(API_ISDb.Serie)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieService.PutSerie(API_ISDb.Serie)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.SerieService.DeleteSerie(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:API_ISDb.Services.UsuarioService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.#ctor(API_ISDb.proyectoContext,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="config"></param>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.GetUsuario(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.PostUsuario(API_ISDb.Usuario)">
+            <summary>
+            
+            </summary>
+            <param name="usuario"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.PutUsuario(API_ISDb.Usuario)">
+            <summary>
+            
+            </summary>
+            <param name="usuario"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.DeleteUsuario(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.login(API_ISDb.Usuario)">
+            <summary>
+            Authenticate and generate token
+            </summary>
+            <param name="_users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.register(API_ISDb.Usuario)">
+            <summary>
+            
+            </summary>
+            <param name="_users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.CheckUser(API_ISDb.Usuario)">
+            <summary>
+            
+            </summary>
+            <param name="_users"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
