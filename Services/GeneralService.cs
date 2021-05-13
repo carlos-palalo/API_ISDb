@@ -71,7 +71,7 @@ namespace API_ISDb.Services
             info.Sinopsis = series.Sinopsis;
             info.Trailer = series.Trailer;
             info.Generos = _genero.GetGeneros(serie);
-            info.LitaReparto = _reparto.GetRepartos(serie);
+            info.ListaReparto = _reparto.GetRepartos(serie);
 
             return info;
         }
