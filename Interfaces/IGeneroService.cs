@@ -10,5 +10,6 @@ namespace API_ISDb.Interfaces
         Genero PostGenero(Genero genero);
         bool PutGenero(Genero genero);
         Genero Search(string cad);
+        ICollection<Genero> GetGeneros(int id);
     }
 }

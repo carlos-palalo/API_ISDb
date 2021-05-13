@@ -14,14 +14,10 @@ namespace API_ISDb.Models
         public int Year { get; set; }
         public string Sinopsis { get; set; }
         public string Trailer { get; set; }
+        public ICollection<Genero> Generos { get; set; }
+        public ICollection<ListaReparto> LitaReparto { get; set; }
 
-        public List<string> generos { get; set; }
-
-        public List<Director> director { get; set; }
-        public List<Escritor> escritor { get; set; }
-        public List<Actor> actor { get; set; }
-
-        public InfoSerie(int idSerie, string titulo, string poster, int year, string sinopsis, string trailer, List<string> generos, List<Director> director, List<Escritor> escritor, List<Actor> actor)
+        public InfoSerie(int idSerie, string titulo, string poster, int year, string sinopsis, string trailer, ICollection<Genero> generos, ICollection<ListaReparto> litaReparto)
         {
             IdSerie = idSerie;
             Titulo = titulo;
@@ -29,48 +25,12 @@ namespace API_ISDb.Models
             Year = year;
             Sinopsis = sinopsis;
             Trailer = trailer;
-            this.generos = generos;
-            this.director = director;
-            this.escritor = escritor;
-            this.actor = actor;
+            Generos = generos;
+            LitaReparto = litaReparto;
         }
-    }
 
-    public class Director
-    {
-        public string nombre { get; set; }
-        public string ocupacion { get; set; }
-
-        public Director(string nombre, string ocupacion)
+        public InfoSerie()
         {
-            this.nombre = nombre;
-            this.ocupacion = ocupacion;
-        }
-    }
-
-    public class Escritor
-    {
-        public string nombre { get; set; }
-        public string ocupacion { get; set; }
-
-        public Escritor(string nombre, string ocupacion)
-        {
-            this.nombre = nombre;
-            this.ocupacion = ocupacion;
-        }
-    }
-
-    public class Actor
-    {
-        public string nombre { get; set; }
-        public string foto { get; set; }
-        public string ocupacion { get; set; }
-
-        public Actor(string nombre, string foto, string ocupacion)
-        {
-            this.nombre = nombre;
-            this.foto = foto;
-            this.ocupacion = ocupacion;
         }
     }
 }

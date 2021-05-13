@@ -539,13 +539,15 @@
             Controlador al que accede cualquier usuario
             </summary>
         </member>
-        <member name="M:API_ISDb.Controllers.GeneralController.#ctor(API_ISDb.Interfaces.IUsuarioService,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneralService)">
+        <member name="M:API_ISDb.Controllers.GeneralController.#ctor(API_ISDb.Interfaces.IUsuarioService,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneralService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.IRepartoService)">
             <summary>
             
             </summary>
             <param name="user"></param>
             <param name="serie"></param>
             <param name="general"></param>
+            <param name="genero"></param>
+            <param name="reparto"></param>
         </member>
         <member name="M:API_ISDb.Controllers.GeneralController.GetAllSeries">
             <summary>
@@ -553,7 +555,21 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:API_ISDb.Controllers.GeneralController.GetInfoSeries(System.Int32)">
+        <member name="M:API_ISDb.Controllers.GeneralController.GetSerie(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.GetGeneros(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.GetReparto(System.Int32)">
             <summary>
             
             </summary>
@@ -703,11 +719,12 @@
             
             </summary>
         </member>
-        <member name="M:API_ISDb.Services.GeneroService.#ctor(API_ISDb.proyectoContext)">
+        <member name="M:API_ISDb.Services.GeneroService.#ctor(API_ISDb.proyectoContext,API_ISDb.Interfaces.ISerieGeneroService)">
             <summary>
             
             </summary>
             <param name="context"></param>
+            <param name="serieGenero"></param>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.GetAll">
             <summary>
@@ -716,6 +733,13 @@
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.GetGenero(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.GeneroService.GetGeneros(System.Int32)">
             <summary>
             
             </summary>

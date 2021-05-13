@@ -59,58 +59,21 @@ namespace API_ISDb.Services
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
-        public string GetInfoSerie(int serie)
+        public InfoSerie GetInfoSerie(int serie)
         {
             Serie series = _serie.GetSerie(serie);
-            ICollection<Genero> generos = _genero.GetAll();
-            ICollection<Reparto> reparto = _reparto.GetAll();
-            ICollection<Role> role = _role.GetAll();
 
-            List<string> lista = new List<string>();
-            List<Director> director = new List<Director>();
-            List<Escritor> escritor = new List<Escritor>();
-            List<Actor> actor = new List<Actor>();
+            InfoSerie info = new InfoSerie();
+            info.IdSerie = series.IdSerie;
+            info.Titulo = series.Titulo;
+            info.Poster = series.Poster;
+            info.Year = series.Year;
+            info.Sinopsis = series.Sinopsis;
+            info.Trailer = series.Trailer;
+            info.Generos = _genero.GetGeneros(serie);
+            info.LitaReparto = _reparto.GetRepartos(serie);
 
-            foreach (Genero gen in generos)
-            {
-                SerieGenero sg = _serieGenero.GetSerieGenero(serie, gen.IdGenero);
-                if (sg != null)
-                {
-                    lista.Add(gen.Nombre);
-                }
-            }
-
-            foreach (Reparto rep in reparto)
-            {
-                SerieReparto sr = _serieReparto.GetSerieReparto(serie, rep.IdReparto);
-                if (sr != null)
-                {
-                    foreach (Role rol in role)
-                    {
-                        RepartoRole rr = _repartoRole.GetRepartoRole(rep.IdReparto, rol.IdRole);
-                        if (rr != null)
-                        {
-                            Console.WriteLine("aa");
-                            switch (rol.Nombre)
-                            {
-                                case "director":
-                                    director.Add(new Director(rep.Name, rol.Nombre));
-                                    break;
-                                case "writer":
-                                    escritor.Add(new Escritor(rep.Name, rol.Nombre));
-                                    break;
-                                case "actor":
-                                    actor.Add(new Actor(rep.Name, rep.Foto, rol.Nombre));
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            InfoSerie infoSerie = new InfoSerie(series.IdSerie, series.Titulo, series.Poster, series.Year, series.Sinopsis, series.Trailer, lista, director, escritor, actor);
-            string json = JsonConvert.SerializeObject(infoSerie);
-            return json;
+            return info;
         }
 
         /// <summary>

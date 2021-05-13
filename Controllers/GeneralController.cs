@@ -19,19 +19,28 @@ namespace API_ISDb.Controllers
         private IUsuarioService _user;
         private ISerieService _serie;
         private IGeneralService _general;
-
+        private IGeneroService _genero;
+        private IRepartoService _reparto;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="user"></param>
         /// <param name="serie"></param>
         /// <param name="general"></param>
-        public GeneralController(IUsuarioService user, ISerieService serie, IGeneralService general)
+        /// <param name="genero"></param>
+        /// <param name="reparto"></param>
+        public GeneralController(IUsuarioService user, ISerieService serie, IGeneralService general, IGeneroService genero, IRepartoService reparto)
         {
             _user = user;
             _serie = serie;
             _general = general;
+            _genero = genero;
+            _reparto = reparto;
         }
+
+
+
+
 
         /// <summary>
         /// 
@@ -50,10 +59,34 @@ namespace API_ISDb.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("getinfoserie/{id}")]
-        public ActionResult GetInfoSeries(int id)
+        [HttpGet("getserie/{id}")]
+        public ActionResult GetSerie(int id)
         {
             return Ok(_general.GetInfoSerie(id));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("getgenero/{id}")]
+        public ActionResult GetGeneros(int id)
+        {
+            return Ok(_genero.GetGeneros(id));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("getreparto/{id}")]
+        public ActionResult GetReparto(int id)
+        {
+            return Ok(_reparto.GetRepartos(id));
         }
 
         /// <summary>
@@ -66,7 +99,7 @@ namespace API_ISDb.Controllers
         public ActionResult SearchSerie([FromBody] string serie)
         {
             ICollection<Serie> response = _general.SearchSerie(serie);
-            if (response.Count()!=0)
+            if (response.Count() != 0)
             {
                 return Ok(response);
             }

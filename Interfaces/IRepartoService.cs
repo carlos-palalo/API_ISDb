@@ -10,5 +10,6 @@ namespace API_ISDb.Interfaces
         Reparto PostReparto(Reparto reparto);
         bool PutReparto(Reparto reparto);
         Reparto Search(string cad);
+        ICollection<ListaReparto> GetRepartos(int id);
     }
 }

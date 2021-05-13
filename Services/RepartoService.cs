@@ -1,6 +1,7 @@
 ﻿using API_ISDb.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,6 +40,60 @@ namespace API_ISDb.Services
         public Reparto GetReparto(int id)
         {
             return _context.Reparto.Find(id);
+        }
+
+        public ICollection<ListaReparto> GetRepartos(int id)
+        {
+            /*
+             Select idReparto, name, foto, role.nombre
+	                FROM reparto as r, reparto_role as rr, role,  serie_reparto as sr
+	                WHERE r.idReparto = rr.Reparto_idReparto
+                    AND rr.Role_idRole = role.idRole
+                    AND r.idReparto = sr.Reparto_idReparto
+                    AND sr.Serie_idSerie = id;
+             */
+            IDictionary<int, ListaReparto> lista = new Dictionary<int, ListaReparto>();
+            ICollection<ListaReparto> respuesta = new Collection<ListaReparto>();
+
+            var sr = _context.SerieReparto
+                .Where(i => i.SerieIdSerie == id)
+                .Select(i => i.RepartoIdReparto)
+                .ToList();
+
+            var reparto = _context.Reparto
+                .Where(item => sr.Contains(item.IdReparto));
+
+            foreach (Reparto item in reparto.ToArray())
+            {
+                ListaReparto lr = new ListaReparto();
+                lr.IdReparto = item.IdReparto;
+                lr.Name = item.Name;
+                lr.Foto = item.Foto;
+                lista.Add(lr.IdReparto, lr);
+            }
+
+            var r = reparto.Select(i => i.IdReparto)
+                .ToList();
+
+            var rr = _context.RepartoRole
+                .Where(i => r.Contains(i.RepartoIdReparto))
+                .ToArray();
+            //.Select(i => i.RoleIdRole)
+            //.ToList();
+
+            var role = _context.Role.ToArray();
+
+            foreach (Role item in role)
+            {
+                var abc = rr.Where(i => i.RoleIdRole == item.IdRole);
+                foreach (RepartoRole listaRR in abc)
+                {
+                    lista[listaRR.RepartoIdReparto].Role = item.Nombre;
+                    respuesta.Add(lista[listaRR.RepartoIdReparto]);
+                }
+            }
+
+            return respuesta;
         }
 
         /// <summary>

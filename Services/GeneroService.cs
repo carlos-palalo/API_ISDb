@@ -12,15 +12,19 @@ namespace API_ISDb.Services
     public class GeneroService : IGeneroService
     {
         private proyectoContext _context;
+        private ISerieGeneroService _serieGenero;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public GeneroService(proyectoContext context)
+        /// <param name="serieGenero"></param>
+        public GeneroService(proyectoContext context, ISerieGeneroService serieGenero)
         {
             _context = context;
+            _serieGenero = serieGenero;
         }
+
 
         /// <summary>
         /// 
@@ -39,6 +43,25 @@ namespace API_ISDb.Services
         public Genero GetGenero(int id)
         {
             return _context.Genero.Find(id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ICollection<Genero> GetGeneros(int id)
+        {
+            var sg = _context.SerieGenero
+                .Where(n => n.SerieIdSerie == id)
+                .Select(item => item.GeneroIdGenero).ToList();
+            List<Genero> lista = new List<Genero>();
+
+            var g = _context.Genero
+                .Where(item => sg.Contains(item.IdGenero))
+                .ToArray();
+
+            return g;
         }
 
         /// <summary>
