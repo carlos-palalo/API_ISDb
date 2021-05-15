@@ -7,6 +7,6 @@ namespace API_ISDb.Interfaces
     {
         ICollection<Serie> GetAll();
         InfoSerie GetInfoSerie(int serie);
-        ICollection<Serie> SearchSerie(string serie);
+        IEnumerable<SearchSerie> SearchSerie();
     }
 }

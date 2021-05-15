@@ -576,9 +576,9 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:API_ISDb.Controllers.GeneralController.SearchSerie(System.String)">
+        <member name="M:API_ISDb.Controllers.GeneralController.SearchSerie">
             <summary>
-            
+            Devuelve los nombres de las series y su id
             </summary>
             <param name="serie"></param>
             <returns></returns>
@@ -707,7 +707,7 @@
             <param name="serie"></param>
             <returns></returns>
         </member>
-        <member name="M:API_ISDb.Services.GeneralService.SearchSerie(System.String)">
+        <member name="M:API_ISDb.Services.GeneralService.SearchSerie">
             <summary>
             
             </summary>
@@ -1156,7 +1156,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:API_ISDb.Services.SerieService.SearchSerie(System.String)">
+        <member name="M:API_ISDb.Services.SerieService.SearchSerie">
             <summary>
             
             </summary>

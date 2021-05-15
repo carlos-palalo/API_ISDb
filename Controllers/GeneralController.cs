@@ -90,15 +90,15 @@ namespace API_ISDb.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Devuelve los nombres de las series y su id
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("searchserie/")]
-        public ActionResult SearchSerie([FromBody] string serie)
+        public ActionResult SearchSerie()
         {
-            ICollection<Serie> response = _general.SearchSerie(serie);
+            IEnumerable<SearchSerie> response = _general.SearchSerie();
             if (response.Count() != 0)
             {
                 return Ok(response);

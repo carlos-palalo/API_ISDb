@@ -47,14 +47,20 @@ namespace API_ISDb.Services
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
-        public ICollection<Serie> SearchSerie(string serie)
+        public IEnumerable<SearchSerie> SearchSerie()
         {
-            ICollection<Serie> series = new Collection<Serie>();
+            IEnumerable<SearchSerie> series = new List<SearchSerie>();
 
-            var v_serie = _context.Serie.SingleOrDefault(a => a.Titulo.Contains(serie));
+            var v_serie = _context.Serie
+                .ToArray()
+                .Select(x => new SearchSerie(){ 
+                    IdSerie = x.IdSerie,
+                    Titulo = x.Titulo
+                });
+
             if (v_serie != null)
             {
-                series.Add(v_serie);
+                series = v_serie;
             }
 
             return series;

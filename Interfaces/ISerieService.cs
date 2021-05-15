@@ -10,6 +10,6 @@ namespace API_ISDb.Interfaces
         Serie PostSerie(Serie serie);
         bool PutSerie(Serie serie);
         Serie Search(string cad);
-        ICollection<Serie> SearchSerie(string serie);
+        IEnumerable<SearchSerie> SearchSerie();
     }
 }

@@ -81,9 +81,9 @@ namespace API_ISDb.Services
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
-        public ICollection<Serie> SearchSerie(string serie)
+        public IEnumerable<SearchSerie> SearchSerie()
         {
-            return _serie.SearchSerie(serie);
+            return _serie.SearchSerie();
         }
     }
 }
