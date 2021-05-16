@@ -161,6 +161,11 @@ namespace API_ISDb.Services
             return null;
         }
 
+        public Usuario GetCurrentUser(Usuario user)
+        {
+            return AuthenticateUser(user);
+        }
+
         #region AuthenticateUser
         // Hardcoded the User authentication  
         private Usuario AuthenticateUser(Usuario login)

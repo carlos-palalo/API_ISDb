@@ -69,8 +69,9 @@ namespace API_ISDb.Controllers
 
                     if (!response.Equals(""))
                     {
+                        Usuario user = _user.GetCurrentUser(usuario);
                         Program._log.Information("Login successfull");
-                        return Ok(response);
+                        return Ok(new { username = user.Username, tipo = user.Tipo, token = response });
                     }
 
                     Program._log.Warning("Login Failed");
@@ -118,9 +119,9 @@ namespace API_ISDb.Controllers
                 usuario.Password = user.Password;
                 usuario.Email = user.Email;
                 usuario.Tipo = "normal";
-                
+
                 string token = _user.register(usuario);
-                return Ok(token);
+                return Ok(new { username = usuario.Username, tipo = usuario.Tipo, token = token });
             }
             else
             {
