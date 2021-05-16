@@ -194,7 +194,7 @@ namespace API_ISDb.Services
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             string tipo;
 
-            tipo = userInfo.Tipo.Equals("admin") ? "admins" : "normal";
+            tipo = userInfo.Tipo.Equals("admin") ? "admin" : "normal";
 
             var claimsToken = new List<Claim>
             {

@@ -19,7 +19,7 @@ namespace API_ISDb.Controllers
     /// <summary>
     /// Controllador al que accede sólo el Admin
     /// </summary>
-    [Authorize(Roles="admins")]
+    [Authorize(Roles="admin")]
     public class AdminController : BaseController
     {
         private ISerieService _serie;
