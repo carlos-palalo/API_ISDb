@@ -8042,19 +8042,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\CARLOS-PC\\.nuget\\packages\\": {}
+    "C:\\Users\\carlos.palacios\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\CARLOS-PC\\source\\repos\\API_ISDb\\API_ISDb.csproj",
+      "projectUniqueName": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
       "projectName": "API_ISDb",
-      "projectPath": "C:\\Users\\CARLOS-PC\\source\\repos\\API_ISDb\\API_ISDb.csproj",
-      "packagesPath": "C:\\Users\\CARLOS-PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\CARLOS-PC\\source\\repos\\API_ISDb\\obj\\",
+      "projectPath": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
+      "packagesPath": "C:\\Users\\carlos.palacios\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\CARLOS-PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\carlos.palacios\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
