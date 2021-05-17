@@ -315,10 +315,13 @@
             <param name="genero"></param>
             <returns></returns>
         </member>
-        <member name="M:API_ISDb.Controllers.AdminController.GetRepartos">
+        <member name="M:API_ISDb.Controllers.AdminController.GetRepartos(System.Int32)">
+            //GetRepartos => getrepartos/
             <summary>
             GetRepartos method
             </summary>
+            <param name="serie"></param>
+            <returns></returns>
         </member>
         <member name="M:API_ISDb.Controllers.AdminController.GetReparto(System.Int32)">
             <summary>
@@ -903,6 +906,13 @@
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RepartoService.GetReparto(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.RepartoService.GetRepartoSerie(System.Int32)">
             <summary>
             
             </summary>

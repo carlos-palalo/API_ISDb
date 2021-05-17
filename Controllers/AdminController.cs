@@ -693,15 +693,17 @@ namespace API_ISDb.Controllers
         }
         #endregion
 
-        #region Reparto 
-        //GetRepartos => getrepartos/
+        #region Reparto
+        /// //GetRepartos => getrepartos/
         /// <summary>
         /// GetRepartos method
         /// </summary>
-        [HttpGet("getrepartos/")]
-        public ActionResult GetRepartos()
+        /// <param name="serie"></param>
+        /// <returns></returns>
+        [HttpGet("getrepartos/{serie}")]
+        public ActionResult GetRepartos(int serie)
         {
-            return Ok(_reparto.GetAll());
+            return Ok(_reparto.GetRepartos(serie));
         }
 
         /// <summary>
