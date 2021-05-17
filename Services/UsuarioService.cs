@@ -74,7 +74,7 @@ namespace API_ISDb.Services
             var v_usuario = _context.Usuario.SingleOrDefault(a => a.IdUsuario == usuario.IdUsuario);
             if (v_usuario != null)
             {
-                usuario.Password = Encrypt.GetSHA256(usuario.Password);
+                //usuario.Password = Encrypt.GetSHA256(usuario.Password);
                 _context.Entry(v_usuario).CurrentValues.SetValues(usuario);
                 _context.SaveChanges();
                 return true;
