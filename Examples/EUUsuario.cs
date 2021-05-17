@@ -13,9 +13,5 @@ namespace API_ISDb.Examples
 
         public string Email { get; set; }
         public string Tipo { get; set; }
-        public string Genero { get; set; }
-        public string Pais { get; set;}
-        public DateTime? Nacimiento { get; set; }
-        public string FotoPerfil { get; set; }
     }
 }

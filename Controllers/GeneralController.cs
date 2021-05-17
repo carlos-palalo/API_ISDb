@@ -155,10 +155,6 @@ namespace API_ISDb.Controllers
                 usuario.Password = Encrypt.GetSHA256(user.Password);
                 usuario.Email = user.Email;
                 usuario.Tipo = user.Tipo;
-                usuario.Genero = user.Genero;
-                usuario.Pais = user.Pais;
-                usuario.Nacimiento = user.Nacimiento;
-                usuario.FotoPerfil = user.FotoPerfil;
 
                 answer = _user.PutUsuario(usuario);
                 if (answer)

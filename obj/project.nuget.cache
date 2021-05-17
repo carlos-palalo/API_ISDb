@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uKDbm27xeA/f0/2gVOumVkABKSvPc4r+Ix6suV284FCMpK6TRKezcYXytUAvHHKn33kJcK9n0LzK7gSvqxv31A==",
+  "dgSpecHash": "K/43H5cKUQZVne2nvYbPm51yotAnNRoUlgCnK81klK16WvNcm3ge2x6wlZTp6wqWmizahPdtU9VEizkuiqNvbA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
+  "projectFilePath": "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\google.protobuf\\3.11.4\\google.protobuf.3.11.4.nupkg.sha512",

@@ -285,22 +285,6 @@ namespace API_ISDb
                     .HasColumnName("email")
                     .HasMaxLength(45);
 
-                entity.Property(e => e.FotoPerfil)
-                    .HasColumnName("foto_perfil")
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Genero)
-                    .HasColumnName("genero")
-                    .HasColumnType("enum('masculino','femenino','no binario')");
-
-                entity.Property(e => e.Nacimiento)
-                    .HasColumnName("nacimiento")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.Pais)
-                    .HasColumnName("pais")
-                    .HasMaxLength(45);
-
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnName("password")
