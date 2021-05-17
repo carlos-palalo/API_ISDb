@@ -42,6 +42,16 @@ namespace API_ISDb.Services
             return _context.Reparto.Find(id);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Reparto GetRepartoSerie(int id)
+        {
+            return _context.Reparto.Find(id);
+        }
+
         public ICollection<ListaReparto> GetRepartos(int id)
         {
             /*

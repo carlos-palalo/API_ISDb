@@ -205,7 +205,7 @@ namespace API_ISDb.Services
             {
                 new Claim("idUsuario", userInfo.IdUsuario.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Username),
-                new Claim("Role", tipo)
+                new Claim("role", tipo)
             };
 
             var token = new JwtSecurityToken(

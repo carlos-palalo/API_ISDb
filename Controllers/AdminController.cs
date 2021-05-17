@@ -279,15 +279,11 @@ namespace API_ISDb.Controllers
         /// 
         ///     PUT /Usuario
         ///     {
-        ///         "IdUsuario": 0,
-        ///         "Username": "name",
-        ///         "Password": "pass",
+        ///         "IdUsuario": 1,
+        ///         "Username": "username",
+        ///         "Password": "password",
         ///         "Email": "email",
-        ///         "Tipo": "tipo",
-        ///         "Genero": "genero",
-        ///         "Pais": "pais",
-        ///         "Nacimiento": "2020-12-25",
-        ///         "FotoPerfil": "url"
+        ///         "Tipo": "normal/admin"
         ///     }
         /// </remarks>
         /// <param name="user"></param>
@@ -304,10 +300,6 @@ namespace API_ISDb.Controllers
                 usuario.Password = Encrypt.GetSHA256(user.Password);
                 usuario.Email = user.Email;
                 usuario.Tipo = user.Tipo;
-                usuario.Genero = user.Genero;
-                usuario.Pais = user.Pais;
-                usuario.Nacimiento = user.Nacimiento;
-                usuario.FotoPerfil = user.FotoPerfil;
 
                 answer = _usuario.PutUsuario(usuario);
                 if (answer)
@@ -693,15 +685,17 @@ namespace API_ISDb.Controllers
         }
         #endregion
 
-        #region Reparto 
-        //GetRepartos => getrepartos/
+        #region Reparto
+        /// //GetRepartos => getrepartos/
         /// <summary>
         /// GetRepartos method
         /// </summary>
-        [HttpGet("getrepartos/")]
-        public ActionResult GetRepartos()
+        /// <param name="serie"></param>
+        /// <returns></returns>
+        [HttpGet("getrepartos/{serie}")]
+        public ActionResult GetRepartos(int serie)
         {
-            return Ok(_reparto.GetAll());
+            return Ok(_reparto.GetRepartos(serie));
         }
 
         /// <summary>
