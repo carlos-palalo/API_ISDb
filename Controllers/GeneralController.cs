@@ -152,7 +152,7 @@ namespace API_ISDb.Controllers
                 Usuario usuario = new Usuario();
                 usuario.IdUsuario = user.IdUsuario;
                 usuario.Username = user.Username;
-                usuario.Password = Encrypt.GetSHA256(user.Password);
+                //usuario.Password = Encrypt.GetSHA256(user.Password);
                 usuario.Email = user.Email;
                 usuario.Tipo = user.Tipo;
 

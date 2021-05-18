@@ -8047,11 +8047,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
+      "projectUniqueName": "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
       "projectName": "API_ISDb",
-      "projectPath": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
+      "projectPath": "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
       "packagesPath": "C:\\Users\\carlos.palacios\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\obj\\",
+      "outputPath": "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\carlos.palacios\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -8136,5 +8136,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problema al leer el archivo de caché C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
