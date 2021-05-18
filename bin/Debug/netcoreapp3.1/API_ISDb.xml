@@ -168,9 +168,9 @@
                 {
                     "Titulo": "title",
                     "Descripcion": "string",
-                    "Puntuacion": 0,
-                    "UsuarioIdUsuario": 0,
-                    "SerieIdSerie": 0
+                    "Puntuacion": "0",
+                    "UsuarioIdUsuario": "0",
+                    "SerieIdSerie": "0"
                 }
             </remarks>
             <returns></returns>
@@ -184,13 +184,13 @@
             
                 PUT /Review
                 {
-                    "IdReview": 0,
+                    "IdReview": "0",
                     "Titulo": "title",
                     "Descripcion": "string",
-                    "Puntuacion": 0,
+                    "Puntuacion": "0",
                     "Fecha": "2020-12-21",
-                    "UsuarioIdUsuario": 0,
-                    "SerieIdSerie": 0
+                    "UsuarioIdUsuario": "0",
+                    "SerieIdSerie": "0"
                 }
             </remarks>
             <param name="rev"></param>

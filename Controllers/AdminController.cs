@@ -367,9 +367,9 @@ namespace API_ISDb.Controllers
         ///     {
         ///         "Titulo": "title",
         ///         "Descripcion": "string",
-        ///         "Puntuacion": 0,
-        ///         "UsuarioIdUsuario": 0,
-        ///         "SerieIdSerie": 0
+        ///         "Puntuacion": "0",
+        ///         "UsuarioIdUsuario": "0",
+        ///         "SerieIdSerie": "0"
         ///     }
         /// </remarks>
         /// <returns></returns>
@@ -382,10 +382,10 @@ namespace API_ISDb.Controllers
                 //review.IdReview = rev.IdReview;
                 review.Titulo = rev.Titulo;
                 review.Descripcion = rev.Descripcion;
-                review.Puntuacion = rev.Puntuacion;
+                review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
                 review.Fecha = DateTime.Now;
-                review.UsuarioIdUsuario = rev.UsuarioIdUsuario;
-                review.SerieIdSerie = rev.SerieIdSerie;
+                review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
+                review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
 
                 var reviews = _review.PostReview(review);
                 return Ok(reviews);
@@ -404,13 +404,13 @@ namespace API_ISDb.Controllers
         /// 
         ///     PUT /Review
         ///     {
-        ///         "IdReview": 0,
+        ///         "IdReview": "0",
         ///         "Titulo": "title",
         ///         "Descripcion": "string",
-        ///         "Puntuacion": 0,
+        ///         "Puntuacion": "0",
         ///         "Fecha": "2020-12-21",
-        ///         "UsuarioIdUsuario": 0,
-        ///         "SerieIdSerie": 0
+        ///         "UsuarioIdUsuario": "0",
+        ///         "SerieIdSerie": "0"
         ///     }
         /// </remarks>
         /// <param name="rev"></param>
@@ -422,13 +422,13 @@ namespace API_ISDb.Controllers
             if (ModelState.IsValid)
             {
                 Review review = new Review();
-                review.IdReview = rev.IdReview;
+                review.IdReview = Convert.ToInt32(rev.IdReview);
                 review.Titulo = rev.Titulo;
                 review.Descripcion = rev.Descripcion;
-                review.Puntuacion = rev.Puntuacion;
+                review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
                 review.Fecha = rev.Fecha;
-                review.UsuarioIdUsuario = rev.UsuarioIdUsuario;
-                review.SerieIdSerie = rev.SerieIdSerie;
+                review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
+                review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
 
                 answer = _review.PutReview(review);
                 if (answer)
