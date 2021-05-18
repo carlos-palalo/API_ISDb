@@ -7,7 +7,7 @@ namespace API_ISDb.Examples
 {
     public class ERepartoRole
     {
-        public int RepartoIdReparto { get; set; }
-        public int RoleIdRole { get; set; }
+        public string RepartoIdReparto { get; set; }
+        public string RoleIdRole { get; set; }
     }
 }

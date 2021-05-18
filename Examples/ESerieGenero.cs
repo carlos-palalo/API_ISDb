@@ -7,7 +7,7 @@ namespace API_ISDb.Examples
 {
     public class ESerieGenero
     {
-        public int SerieIdSerie { get; set; }
-        public int GeneroIdGenero { get; set; }
+        public string SerieIdSerie { get; set; }
+        public string GeneroIdGenero { get; set; }
     }
 }

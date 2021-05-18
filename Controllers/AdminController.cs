@@ -618,8 +618,8 @@ namespace API_ISDb.Controllers
             if (ModelState.IsValid)
             {
                 SerieGenero seriegenero = new SerieGenero();
-                seriegenero.GeneroIdGenero = sergen.GeneroIdGenero;
-                seriegenero.SerieIdSerie = sergen.SerieIdSerie;
+                seriegenero.GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero);
+                seriegenero.SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie);
 
                 var serieGeneros = _serieGenero.PostSerieGenero(seriegenero);
                 return Ok(serieGeneros);
@@ -653,8 +653,8 @@ namespace API_ISDb.Controllers
             if (ModelState.IsValid)
             {
                 SerieGenero seriegenero = new SerieGenero();
-                seriegenero.GeneroIdGenero = sergen.GeneroIdGenero;
-                seriegenero.SerieIdSerie = sergen.SerieIdSerie;
+                seriegenero.GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero);
+                seriegenero.SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie);
 
                 answer = _serieGenero.PutSerieGenero(seriegenero, serie, genero);
                 if (answer)
@@ -960,8 +960,8 @@ namespace API_ISDb.Controllers
             if (ModelState.IsValid)
             {
                 RepartoRole repartoRole = new RepartoRole();
-                repartoRole.RepartoIdReparto = repRole.RepartoIdReparto;
-                repartoRole.RoleIdRole = repRole.RoleIdRole;
+                repartoRole.RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto);
+                repartoRole.RoleIdRole = Convert.ToInt32(repRole.RoleIdRole);
 
                 var repartoRoles = _repartoRole.PostRepartoRole(repartoRole);
                 return Ok(repartoRoles);
@@ -995,8 +995,8 @@ namespace API_ISDb.Controllers
             if (ModelState.IsValid)
             {
                 RepartoRole repartoRole = new RepartoRole();
-                repartoRole.RepartoIdReparto = repRole.RepartoIdReparto;
-                repartoRole.RoleIdRole = repRole.RoleIdRole;
+                repartoRole.RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto);
+                repartoRole.RoleIdRole = Convert.ToInt32(repRole.RoleIdRole);
 
                 answer = _repartoRole.PutRepartoRole(repartoRole, reparto, role);
                 if (answer)
@@ -1076,8 +1076,8 @@ namespace API_ISDb.Controllers
             if (ModelState.IsValid)
             {
                 SerieReparto serieReparto = new SerieReparto();
-                serieReparto.SerieIdSerie = serRep.SerieIdSerie;
-                serieReparto.RepartoIdReparto = serRep.RepartoIdReparto;
+                serieReparto.SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie);
+                serieReparto.RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto);
 
                 var serieRepartos = _serieReparto.PostSerieReparto(serieReparto);
                 return Ok(serieRepartos);
@@ -1111,8 +1111,8 @@ namespace API_ISDb.Controllers
             if (ModelState.IsValid)
             {
                 SerieReparto serieReparto = new SerieReparto();
-                serieReparto.SerieIdSerie = serRep.SerieIdSerie;
-                serieReparto.RepartoIdReparto = serRep.RepartoIdReparto;
+                serieReparto.SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie);
+                serieReparto.RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto);
 
                 answer = _serieReparto.PutSerieReparto(serieReparto, serie, reparto);
                 if (answer)
