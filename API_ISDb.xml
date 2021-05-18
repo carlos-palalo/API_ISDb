@@ -128,15 +128,11 @@
             
                 PUT /Usuario
                 {
-                    "IdUsuario": 0,
-                    "Username": "name",
-                    "Password": "pass",
+                    "IdUsuario": 1,
+                    "Username": "username",
+                    "Password": "password",
                     "Email": "email",
-                    "Tipo": "tipo",
-                    "Genero": "genero",
-                    "Pais": "pais",
-                    "Nacimiento": "2020-12-25",
-                    "FotoPerfil": "url"
+                    "Tipo": "normal/admin"
                 }
             </remarks>
             <param name="user"></param>

@@ -367,7 +367,6 @@ namespace API_ISDb.Controllers
         ///         "Titulo": "title",
         ///         "Descripcion": "string",
         ///         "Puntuacion": 0,
-        ///         "Fecha": "2020-12-21",
         ///         "UsuarioIdUsuario": 0,
         ///         "SerieIdSerie": 0
         ///     }
@@ -383,7 +382,7 @@ namespace API_ISDb.Controllers
                 review.Titulo = rev.Titulo;
                 review.Descripcion = rev.Descripcion;
                 review.Puntuacion = rev.Puntuacion;
-                review.Fecha = rev.Fecha;
+                review.Fecha = DateTime.Now;
                 review.UsuarioIdUsuario = rev.UsuarioIdUsuario;
                 review.SerieIdSerie = rev.SerieIdSerie;
 

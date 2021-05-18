@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj": {}
+    "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj": {}
   },
   "projects": {
-    "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj": {
+    "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
+        "projectUniqueName": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
         "projectName": "API_ISDb",
-        "projectPath": "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
+        "projectPath": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
         "packagesPath": "C:\\Users\\carlos.palacios\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\obj\\",
+        "outputPath": "C:\\Users\\carlos.palacios\\Source\\Repos\\carlos-palalo\\API_ISDb\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\carlos.palacios\\AppData\\Roaming\\NuGet\\NuGet.Config",

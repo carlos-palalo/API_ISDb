@@ -10,7 +10,6 @@ namespace API_ISDb.Examples
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
         public int Puntuacion { get; set; }
-        public DateTime Fecha { get; set; }
         public int UsuarioIdUsuario { get; set; }
         public int SerieIdSerie { get; set; }
     }
