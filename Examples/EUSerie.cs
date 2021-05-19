@@ -7,7 +7,7 @@ namespace API_ISDb.Examples
 {
     public class EUSerie
     {
-        public int IdSerie { get; set; }
+        public string IdSerie { get; set; }
         public string Titulo { get; set; }
         public string Poster { get; set; }
         public string Year { get; set; }

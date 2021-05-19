@@ -173,7 +173,7 @@ namespace API_ISDb.Controllers
             if (ModelState.IsValid)
             {
                 Serie serie = new Serie();
-                serie.IdSerie = ser.IdSerie;
+                serie.IdSerie = Convert.ToInt32(ser.IdSerie);
                 serie.Titulo = ser.Titulo;
                 serie.Poster = ser.Poster;
                 serie.Year = Convert.ToInt32(ser.Year);
