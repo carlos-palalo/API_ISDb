@@ -16,21 +16,8 @@ namespace API_ISDb.Models
         public string Trailer { get; set; }
         public ICollection<Genero> Generos { get; set; }
         public ICollection<ListaReparto> ListaReparto { get; set; }
+        public ICollection<ListaReview> ListaReview { get; set; }
 
-        public InfoSerie(int idSerie, string titulo, string poster, int year, string sinopsis, string trailer, ICollection<Genero> generos, ICollection<ListaReparto> listaReparto)
-        {
-            IdSerie = idSerie;
-            Titulo = titulo;
-            Poster = poster;
-            Year = year;
-            Sinopsis = sinopsis;
-            Trailer = trailer;
-            Generos = generos;
-            ListaReparto = listaReparto;
-        }
-
-        public InfoSerie()
-        {
-        }
+        public InfoSerie() { }
     }
 }

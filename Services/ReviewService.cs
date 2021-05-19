@@ -44,6 +44,34 @@ namespace API_ISDb.Services
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="serie"></param>
+        /// <returns></returns>
+        public List<ListaReview> GetListaReviews(int serie)
+        {
+            List<ListaReview> data = _context.Review
+                .Join(
+                    _context.Usuario,
+                    review => review.UsuarioIdUsuario,
+                    usuario => usuario.IdUsuario,
+                    (review, usuario) => new
+                    {
+                        Usuario = usuario.Username,
+                        Titulo = review.Titulo,
+                        Descripcion = review.Descripcion,
+                        Puntuacion = review.Puntuacion,
+                        Fecha = review.Fecha,
+                        IdSerie = review.SerieIdSerie
+                    }
+                ).Where(item => item.IdSerie == serie)
+                .Select(item => new ListaReview(item.Usuario, item.Titulo, item.Descripcion, item.Puntuacion, item.Fecha.ToString("d")))
+                .ToList();
+
+            return data;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="review"></param>
         /// <returns></returns>
         public Review PostReview(Review review)

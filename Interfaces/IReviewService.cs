@@ -9,5 +9,6 @@ namespace API_ISDb.Interfaces
         Review GetReview(int id);
         Review PostReview(Review review);
         bool PutReview(Review review);
+        List<ListaReview> GetListaReviews(int serie);
     }
 }

@@ -21,6 +21,7 @@ namespace API_ISDb.Services
         private IRepartoService _reparto;
         private IRepartoRoleService _repartoRole;
         private IRoleService _role;
+        private IReviewService _review;
 
         /// <summary>
         /// 
@@ -33,7 +34,8 @@ namespace API_ISDb.Services
         /// <param name="reparto"></param>
         /// <param name="repartoRole"></param>
         /// <param name="role"></param>
-        public GeneralService(proyectoContext context, ISerieService serie, IGeneroService genero, ISerieGeneroService serieGenero, ISerieRepartoService serieReparto, IRepartoService reparto, IRepartoRoleService repartoRole, IRoleService role)
+        /// <param name="review"></param>
+        public GeneralService(proyectoContext context, ISerieService serie, IGeneroService genero, ISerieGeneroService serieGenero, ISerieRepartoService serieReparto, IRepartoService reparto, IRepartoRoleService repartoRole, IRoleService role, IReviewService review)
         {
             _context = context;
             _serie = serie;
@@ -43,6 +45,7 @@ namespace API_ISDb.Services
             _reparto = reparto;
             _repartoRole = repartoRole;
             _role = role;
+            _review = review;
         }
 
         /// <summary>
@@ -72,6 +75,7 @@ namespace API_ISDb.Services
             info.Trailer = series.Trailer;
             info.Generos = _genero.GetGeneros(serie);
             info.ListaReparto = _reparto.GetRepartos(serie);
+            info.ListaReview = _review.GetListaReviews(serie);
 
             return info;
         }

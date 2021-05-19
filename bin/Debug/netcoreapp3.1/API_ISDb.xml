@@ -318,6 +318,12 @@
             <param name="serie"></param>
             <returns></returns>
         </member>
+        <member name="M:API_ISDb.Controllers.AdminController.GetRepartosAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:API_ISDb.Controllers.AdminController.GetReparto(System.Int32)">
             <summary>
             
@@ -679,7 +685,7 @@
             
             </summary>
         </member>
-        <member name="M:API_ISDb.Services.GeneralService.#ctor(API_ISDb.proyectoContext,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.ISerieGeneroService,API_ISDb.Interfaces.ISerieRepartoService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IRepartoRoleService,API_ISDb.Interfaces.IRoleService)">
+        <member name="M:API_ISDb.Services.GeneralService.#ctor(API_ISDb.proyectoContext,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.ISerieGeneroService,API_ISDb.Interfaces.ISerieRepartoService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IRepartoRoleService,API_ISDb.Interfaces.IRoleService,API_ISDb.Interfaces.IReviewService)">
             <summary>
             
             </summary>
@@ -691,6 +697,7 @@
             <param name="reparto"></param>
             <param name="repartoRole"></param>
             <param name="role"></param>
+            <param name="review"></param>
         </member>
         <member name="M:API_ISDb.Services.GeneralService.GetAll">
             <summary>
@@ -964,6 +971,13 @@
             
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.ReviewService.GetListaReviews(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="serie"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ReviewService.PostReview(API_ISDb.Review)">
