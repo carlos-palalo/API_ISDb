@@ -929,7 +929,7 @@ namespace API_ISDb.Controllers
         /// <param name="reparto"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        [HttpGet("getrepartorole/")]
+        [HttpGet("getrepartorole/{reparto}/{role}")]
         public ActionResult GetRepartoRole(int reparto, int role)
         {
             var repartoRole = _repartoRole.GetRepartoRole(reparto, role);
