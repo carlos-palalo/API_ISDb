@@ -135,7 +135,7 @@ namespace API_ISDb.Controllers
                 //serie.IdSerie = ser.IdSerie;
                 serie.Titulo = ser.Titulo;
                 serie.Poster = ser.Poster;
-                serie.Year = ser.Year;
+                serie.Year = Convert.ToInt32(ser.Year);
                 serie.Sinopsis = ser.Sinopsis;
                 serie.Trailer = ser.Trailer;
 
@@ -176,7 +176,7 @@ namespace API_ISDb.Controllers
                 serie.IdSerie = ser.IdSerie;
                 serie.Titulo = ser.Titulo;
                 serie.Poster = ser.Poster;
-                serie.Year = ser.Year;
+                serie.Year = Convert.ToInt32(ser.Year);
                 serie.Sinopsis = ser.Sinopsis;
                 serie.Trailer = ser.Trailer;
 
