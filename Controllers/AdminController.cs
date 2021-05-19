@@ -701,6 +701,16 @@ namespace API_ISDb.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        [HttpGet("getrepartosall/")]
+        public ActionResult GetRepartosAll()
+        {
+            return Ok(_reparto.GetAll());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("getreparto/{id}")]
