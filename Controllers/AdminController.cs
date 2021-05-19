@@ -692,10 +692,10 @@ namespace API_ISDb.Controllers
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
-        [HttpGet("getrepartos")]
+        [HttpGet("getrepartos/{serie}")]
         public ActionResult GetRepartos(int serie)
         {
-            return Ok(_reparto.GetReparto(serie));
+            return Ok(_reparto.GetRepartos(serie));
         }
 
         /// <summary>
