@@ -624,6 +624,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.UpdatePassword(API_ISDb.Examples.EUPassword)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Controllers.GeneralController.UpdateInfUser(API_ISDb.Examples.EUInfo)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
         <member name="T:API_ISDb.Controllers.LoginController">
             <summary>
             Controller Login

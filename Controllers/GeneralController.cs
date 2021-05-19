@@ -182,5 +182,58 @@ namespace API_ISDb.Controllers
             else
                 return NotFound();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPut("updatepass")]
+        public ActionResult UpdatePassword(EUPassword user)
+        {
+            Boolean answer = false;
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = _user.GetUsuario(Convert.ToInt32(user.idUser));
+                usuario.Password = Encrypt.GetSHA256(user.Password);
+
+                answer = _user.PutUsuario(usuario);
+                if (answer)
+                    return Ok();
+                else
+                    return NotFound();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPut("updateinfo")]
+        public ActionResult UpdateInfUser(EUInfo user)
+        {
+            Boolean answer = false;
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = _user.GetUsuario(Convert.ToInt32(user.IdUsuario));
+                usuario.Username = user.Username;
+                usuario.Email = user.Email;
+
+                answer = _user.PutUsuario(usuario);
+                if (answer)
+                    return Ok();
+                else
+                    return NotFound();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }
