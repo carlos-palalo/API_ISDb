@@ -1,7 +1,0 @@
-[INF] -> 2021-05-18 09:48:55 ->  --> Login successfull
-[INF] -> 2021-05-18 11:11:35 ->  --> Login successfull
-[INF] -> 2021-05-18 11:15:00 ->  --> Login successfull
-[INF] -> 2021-05-18 11:21:31 ->  --> Login successfull
-[INF] -> 2021-05-18 11:37:23 ->  --> Login successfull
-[INF] -> 2021-05-18 12:24:35 ->  --> Login successfull
-[INF] -> 2021-05-18 22:12:52 ->  --> Login successfull
