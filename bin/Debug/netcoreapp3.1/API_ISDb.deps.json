@@ -34,7 +34,6 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "3.1.14",
           "Microsoft.EntityFrameworkCore.Tools": "3.1.14",
           "MySql.Data.EntityFrameworkCore": "8.0.22",
-          "NJsonSchema": "10.4.1",
           "Serilog.AspNetCore": "4.1.0",
           "Serilog.Enrichers.ClientInfo": "1.1.3",
           "Serilog.Sinks.File.Archive": "1.0.1",
@@ -900,20 +899,6 @@
           "lib/netstandard2.1/MySql.Data.EntityFrameworkCore.dll": {}
         }
       },
-      "Namotion.Reflection/1.0.19": {
-        "dependencies": {
-          "Microsoft.CSharp": "4.7.0"
-        },
-        "runtime": {
-          "lib/netstandard2.0/Namotion.Reflection.dll": {
-            "assemblyVersion": "1.0.19.0",
-            "fileVersion": "1.0.19.0"
-          }
-        },
-        "compile": {
-          "lib/netstandard2.0/Namotion.Reflection.dll": {}
-        }
-      },
       "NETStandard.Library/1.6.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -999,21 +984,6 @@
         },
         "compile": {
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
-        }
-      },
-      "NJsonSchema/10.4.1": {
-        "dependencies": {
-          "Namotion.Reflection": "1.0.19",
-          "Newtonsoft.Json": "10.0.1"
-        },
-        "runtime": {
-          "lib/netstandard2.0/NJsonSchema.dll": {
-            "assemblyVersion": "10.4.1.0",
-            "fileVersion": "10.4.1.0"
-          }
-        },
-        "compile": {
-          "lib/netstandard2.0/NJsonSchema.dll": {}
         }
       },
       "runtime.native.System/4.3.0": {
@@ -4079,13 +4049,6 @@
       "path": "mysql.data.entityframeworkcore/8.0.22",
       "hashPath": "mysql.data.entityframeworkcore.8.0.22.nupkg.sha512"
     },
-    "Namotion.Reflection/1.0.19": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-+eY1uabKkJEvjfHvr8uHLB1lvrb8S+akpXOe6fKMLTeZEMYIQywFL0/5+zrpNFklJIYzaEoApw2p3zFx357LjQ==",
-      "path": "namotion.reflection/1.0.19",
-      "hashPath": "namotion.reflection.1.0.19.nupkg.sha512"
-    },
     "NETStandard.Library/1.6.0": {
       "type": "package",
       "serviceable": true,
@@ -4099,13 +4062,6 @@
       "sha512": "sha512-ebWzW9j2nwxQeBo59As2TYn7nYr9BHicqqCwHOD1Vdo+50HBtLPuqdiCYJcLdTRknpYis/DSEOQz5KmZxwrIAg==",
       "path": "newtonsoft.json/10.0.1",
       "hashPath": "newtonsoft.json.10.0.1.nupkg.sha512"
-    },
-    "NJsonSchema/10.4.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-XzOfrW2QRS7B6/Z4dVfXXta740oVXvonV2W3OXfhzW+g5tF5FXzwtgseR2vBOf0c6LvLNcR4Wj4vop8uqiSIJA==",
-      "path": "njsonschema/10.4.1",
-      "hashPath": "njsonschema.10.4.1.nupkg.sha512"
     },
     "runtime.native.System/4.3.0": {
       "type": "package",

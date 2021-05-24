@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "K/43H5cKUQZVne2nvYbPm51yotAnNRoUlgCnK81klK16WvNcm3ge2x6wlZTp6wqWmizahPdtU9VEizkuiqNvbA==",
+  "dgSpecHash": "8NWssJpNGW4I4kHNM9TSJvVN/T/7BJDMvfQVzK0LNL2OLUavz523bZ0+sTaFQXrxwsP4xCx8dbjoueeb9j5JTg==",
   "success": true,
   "projectFilePath": "C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\API_ISDb.csproj",
   "expectedPackageFiles": [
@@ -54,10 +54,8 @@
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\mysql.data\\8.0.22\\mysql.data.8.0.22.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\mysql.data.entityframeworkcore\\8.0.22\\mysql.data.entityframeworkcore.8.0.22.nupkg.sha512",
-    "C:\\Users\\carlos.palacios\\.nuget\\packages\\namotion.reflection\\1.0.19\\namotion.reflection.1.0.19.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\netstandard.library\\1.6.0\\netstandard.library.1.6.0.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\newtonsoft.json\\10.0.1\\newtonsoft.json.10.0.1.nupkg.sha512",
-    "C:\\Users\\carlos.palacios\\.nuget\\packages\\njsonschema\\10.4.1\\njsonschema.10.4.1.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\runtime.native.system.io.compression\\4.1.0\\runtime.native.system.io.compression.4.1.0.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\runtime.native.system.net.http\\4.0.1\\runtime.native.system.net.http.4.0.1.nupkg.sha512",
@@ -161,12 +159,5 @@
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\system.xml.xpath\\4.0.1\\system.xml.xpath.4.0.1.nupkg.sha512",
     "C:\\Users\\carlos.palacios\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.0.1\\system.xml.xpath.xmldocument.4.0.1.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problema al leer el archivo de caché C:\\Users\\carlos.palacios\\source\\repos\\carlos-palalo\\API_ISDb\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  "logs": []
 }

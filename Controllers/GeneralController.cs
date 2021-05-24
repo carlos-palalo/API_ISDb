@@ -21,6 +21,8 @@ namespace API_ISDb.Controllers
         private IGeneralService _general;
         private IGeneroService _genero;
         private IRepartoService _reparto;
+        private IReviewService _review;
+
         /// <summary>
         /// 
         /// </summary>
@@ -29,18 +31,16 @@ namespace API_ISDb.Controllers
         /// <param name="general"></param>
         /// <param name="genero"></param>
         /// <param name="reparto"></param>
-        public GeneralController(IUsuarioService user, ISerieService serie, IGeneralService general, IGeneroService genero, IRepartoService reparto)
+        /// <param name="review"></param>
+        public GeneralController(IUsuarioService user, ISerieService serie, IGeneralService general, IGeneroService genero, IRepartoService reparto, IReviewService review)
         {
             _user = user;
             _serie = serie;
             _general = general;
             _genero = genero;
             _reparto = reparto;
+            _review = review;
         }
-
-
-
-
 
         /// <summary>
         /// 
@@ -233,6 +233,34 @@ namespace API_ISDb.Controllers
             else
             {
                 return BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rev"></param>
+        /// <returns></returns>
+        [HttpPost("postreview/")]
+        public ActionResult PostReview([FromBody] EReview rev)
+        {
+            if (ModelState.IsValid)
+            {
+                Review review = new Review();
+                //review.IdReview = rev.IdReview;
+                review.Titulo = rev.Titulo;
+                review.Descripcion = rev.Descripcion;
+                review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
+                review.Fecha = DateTime.Now;
+                review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
+                review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
+
+                var reviews = _review.PostReview(review);
+                return Ok(reviews);
+            }
+            else
+            {
+                return NotFound();
             }
         }
     }
