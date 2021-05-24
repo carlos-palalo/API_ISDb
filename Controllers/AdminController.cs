@@ -19,7 +19,7 @@ namespace API_ISDb.Controllers
     /// <summary>
     /// Controllador al que accede sólo el Admin
     /// </summary>
-    [Authorize(Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class AdminController : BaseController
     {
         private ISerieService _serie;
@@ -34,7 +34,7 @@ namespace API_ISDb.Controllers
         private IImdbService _imdb;
 
         /// <summary>
-        /// 
+        /// Admin controller constructor
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="genero"></param>
@@ -66,51 +66,107 @@ namespace API_ISDb.Controllers
 
         #region GenerateBBDD
         /// <summary>
-        /// 
+        /// Hace peticiones a la API de IMDb e inserta los datos obtenidos en la BBDD
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpGet("generatebbdd/")]
         public ActionResult GenerateBBDD()
         {
-            bool response = _imdb.GenerateBBDD();
-            if (response)
-                return Ok();
-            else
-                return NotFound();
-            
+            try
+            {
+                bool response = _imdb.GenerateBBDD();
+                if (response)
+                {
+                    Program._log.Information("Éxito en la inserción de datos de IMDb en la BBDD.");
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Error("Error en la inserción de datos de IMDb en la BBDD");
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
+
         }
         #endregion
 
         #region Series 
-        //GetSeries => getseries/
         /// <summary>
-        /// GetSeries method
+        /// Obtiene todas las series de la BBDD
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getseries/")]
         public ActionResult GetSeries()
         {
-            return Ok(_serie.GetAll());
+            try
+            {
+                return Ok(_serie.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de los datos de una serie en concreto
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Serie Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getserie/{id}")]
         public ActionResult GetSerie(int id)
         {
-            var series = _serie.GetSerie(id);
-            if (series != null)
-                return Ok(series);
-            else
-                return NotFound();
-
+            try
+            {
+                var series = _serie.GetSerie(id);
+                if (series != null)
+                {
+                    Program._log.Information("Éxito al buscar serie con id " + id);
+                    return Ok(series);
+                }
+                else
+                {
+                    Program._log.Warning("Serie con id " + id + " no encontrada");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostSerie method
+        /// Inserción de una serie
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -126,30 +182,54 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="ser"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postserie/")]
         public ActionResult PostSerie([FromBody] ESerie ser)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Serie serie = new Serie();
-                //serie.IdSerie = ser.IdSerie;
-                serie.Titulo = ser.Titulo;
-                serie.Poster = ser.Poster;
-                serie.Year = Convert.ToInt32(ser.Year);
-                serie.Sinopsis = ser.Sinopsis;
-                serie.Trailer = ser.Trailer;
+                if (ModelState.IsValid)
+                {
+                    Serie serie = new Serie();
+                    serie.Titulo = ser.Titulo;
+                    serie.Poster = ser.Poster;
+                    serie.Year = Convert.ToInt32(ser.Year);
+                    serie.Sinopsis = ser.Sinopsis;
+                    serie.Trailer = ser.Trailer;
 
-                var series = _serie.PostSerie(serie);
-                return Ok(series);
+                    var series = _serie.PostSerie(serie);
+                    if (series != null)
+                    {
+                        Program._log.Information("Éxito al crear una serie");
+                        return Ok(series);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al crear una serie");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al crear una serie. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de una serie
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -166,78 +246,158 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="ser"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Serie Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putserie/")]
         public ActionResult PutSerie([FromBody] EUSerie ser)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Serie serie = new Serie();
-                serie.IdSerie = Convert.ToInt32(ser.IdSerie);
-                serie.Titulo = ser.Titulo;
-                serie.Poster = ser.Poster;
-                serie.Year = Convert.ToInt32(ser.Year);
-                serie.Sinopsis = ser.Sinopsis;
-                serie.Trailer = ser.Trailer;
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Serie serie = new Serie();
+                    serie.IdSerie = Convert.ToInt32(ser.IdSerie);
+                    serie.Titulo = ser.Titulo;
+                    serie.Poster = ser.Poster;
+                    serie.Year = Convert.ToInt32(ser.Year);
+                    serie.Sinopsis = ser.Sinopsis;
+                    serie.Trailer = ser.Trailer;
 
-                answer = _serie.PutSerie(serie);
-                if (answer)
-                    return Ok();
+                    answer = _serie.PutSerie(serie);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar datos de la serie " + serie.Titulo);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar datos de la serie " + serie.Titulo);
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar datos de la serie. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de una serie
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Serie Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deleteserie/{id}")]
         public ActionResult DeleteSerie(int id)
         {
-            Boolean answer = _serie.DeleteSerie(id);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _serie.DeleteSerie(id);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar serie con id " + id);
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Warning("Error al borrar serie con id " + id);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
 
         #region Usuario 
-        //GetUsuarios => getusuarios/
         /// <summary>
-        /// GetUsuarios method
+        /// Obtención de todos los usuarios
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getusuarios/")]
         public ActionResult GetUsuarios()
         {
-            return Ok(_usuario.GetAll());
+            try
+            {
+                return Ok(_usuario.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de la información de un usuario
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Usuario Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getusuario/{id}")]
         public ActionResult GetUsuario(int id)
         {
-            var usuarios = _usuario.GetUsuario(id);
-            if (usuarios != null)
-                return Ok(usuarios);
-            else
-                return NotFound();
-
+            try
+            {
+                var usuarios = _usuario.GetUsuario(id);
+                if (usuarios != null)
+                {
+                    Program._log.Information("Éxito al obtener información del usuario con id " + id);
+                    return Ok(usuarios);
+                }
+                else
+                {
+                    Program._log.Warning("Error al obtener información del usuario con id " + id);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostUsuario method
+        /// Inserción de un usuario
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -251,28 +411,53 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="user"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Error al crear usuario</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postusuario/")]
         public ActionResult PostUsuario([FromBody] EUsuario user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Usuario usuario = new Usuario();
-                //usuario.IdUsuario = user.IdUsuario;
-                usuario.Username = user.Username;
-                usuario.Password = Encrypt.GetSHA256(user.Password);
-                usuario.Email = user.Email;
+                if (ModelState.IsValid)
+                {
+                    Usuario usuario = new Usuario();
+                    usuario.Username = user.Username;
+                    usuario.Password = Encrypt.GetSHA256(user.Password);
+                    usuario.Email = user.Email;
 
-                var usuarios = _usuario.PostUsuario(usuario);
-                return Ok(usuarios);
+                    var usuarios = _usuario.PostUsuario(usuario);
+                    if (usuarios != null)
+                    {
+                        Program._log.Information("Éxito al crear usuario");
+                        return Ok(usuarios);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al crear usuario");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al crear usuario. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de un usuario
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -288,77 +473,158 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="user"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Usuario Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putusuario/")]
         public ActionResult PutUsuario([FromBody] EUUsuario user)
         {
-            Console.WriteLine(user.Email);
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Usuario usuario = new Usuario();
-                usuario.IdUsuario = user.IdUsuario;
-                usuario.Username = user.Username;
-                //usuario.Password = Encrypt.GetSHA256(user.Password);
-                usuario.Email = user.Email;
-                usuario.Tipo = user.Tipo;
+                //Console.WriteLine(user.Email);
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Usuario usuario = new Usuario();
+                    usuario.IdUsuario = user.IdUsuario;
+                    usuario.Username = user.Username;
+                    //usuario.Password = Encrypt.GetSHA256(user.Password);
+                    usuario.Email = user.Email;
+                    usuario.Tipo = user.Tipo;
 
-                answer = _usuario.PutUsuario(usuario);
-                if (answer)
-                    return Ok();
+                    answer = _usuario.PutUsuario(usuario);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar datos del usuario " + user.Username);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar datos del usuario " + user.Username);
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar datos del usuario. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de un usuario
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Usuario Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deleteusuario/{id}")]
         public ActionResult DeleteUsuario(int id)
         {
-            Boolean answer = _usuario.DeleteUsuario(id);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _usuario.DeleteUsuario(id);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar el usuario con id " + id);
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Warning("Error al borrar el usuario con id " + id);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
 
         #region Review 
-        //GetReview => getseries/
         /// <summary>
-        /// GetReview method
+        /// Obtención de todas las reviews
         /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getreviews/")]
         public ActionResult GetReviews()
         {
-            return Ok(_review.GetAll());
+            try
+            {
+                return Ok(_review.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de los datos de una review en concreto
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Review Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getreview/{id}")]
         public ActionResult GetReview(int id)
         {
-            var reviews = _review.GetReview(id);
-            if (reviews != null)
-                return Ok(reviews);
-            else
-                return NotFound();
-
+            try
+            {
+                var reviews = _review.GetReview(id);
+                if (reviews != null)
+                {
+                    Program._log.Information("Éxito al obtener datos de la review con id " + id);
+                    return Ok(reviews);
+                }
+                else
+                {
+                    Program._log.Warning("Error al obtener datos de la review con id " + id);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostReview method
+        /// Creación de una review
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -373,31 +639,57 @@ namespace API_ISDb.Controllers
         ///     }
         /// </remarks>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Error al crear una review</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postreview/")]
         public ActionResult PostReview([FromBody] EReview rev)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Review review = new Review();
-                //review.IdReview = rev.IdReview;
-                review.Titulo = rev.Titulo;
-                review.Descripcion = rev.Descripcion;
-                review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
-                review.Fecha = DateTime.Now;
-                review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
-                review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
+                if (ModelState.IsValid)
+                {
+                    Review review = new Review();
+                    //review.IdReview = rev.IdReview;
+                    review.Titulo = rev.Titulo;
+                    review.Descripcion = rev.Descripcion;
+                    review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
+                    review.Fecha = DateTime.Now;
+                    review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
+                    review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
 
-                var reviews = _review.PostReview(review);
-                return Ok(reviews);
+                    var reviews = _review.PostReview(review);
+                    if (reviews != null)
+                    {
+                        Program._log.Information("Éxito al crear una nueva review");
+                        return Ok(reviews);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al crear una nueva review");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al crear una nueva review. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de datos de una review
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -415,79 +707,159 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="rev"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Review Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putreview/")]
         public ActionResult PutReview([FromBody] EUReview rev)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Review review = new Review();
-                review.IdReview = Convert.ToInt32(rev.IdReview);
-                review.Titulo = rev.Titulo;
-                review.Descripcion = rev.Descripcion;
-                review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
-                review.Fecha = rev.Fecha;
-                review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
-                review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Review review = new Review();
+                    review.IdReview = Convert.ToInt32(rev.IdReview);
+                    review.Titulo = rev.Titulo;
+                    review.Descripcion = rev.Descripcion;
+                    review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
+                    review.Fecha = rev.Fecha;
+                    review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
+                    review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
 
-                answer = _review.PutReview(review);
-                if (answer)
-                    return Ok();
+                    answer = _review.PutReview(review);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar los datos de la review " + review.IdReview);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar los datos de la review " + rev.IdReview);
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar los datos de una review. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de una review
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Review Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deletereview/{id}")]
         public ActionResult DeleteReview(int id)
         {
-            Boolean answer = _review.DeleteReview(id);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _review.DeleteReview(id);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar review con id " + id);
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Warning("Error al borrar review con id " + id);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
 
         #region Genero 
-        //GetGeneros => getgeneros/
         /// <summary>
-        /// GetGeneros method
+        /// Obtiene todos los géneros
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getgeneros/")]
         public ActionResult GetGeneros()
         {
-            return Ok(_genero.GetAll());
+            try
+            {
+                return Ok(_genero.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtiene información de un genero
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Genero Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getgenero/{id}")]
         public ActionResult GetGenero(int id)
         {
-            var generos = _genero.GetGenero(id);
-            if (generos != null)
-                return Ok(generos);
-            else
-                return NotFound();
-
+            try
+            {
+                var generos = _genero.GetGenero(id);
+                if (generos != null)
+                {
+                    Program._log.Information("Éxito al obtener información del género con id " + id);
+                    return Ok(generos);
+                }
+                else
+                {
+                    Program._log.Warning("Genero con id " + id + " no encontrado");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostGenero method
+        /// Inserción de un género nuevo
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -499,26 +871,52 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="gen"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Error al crear Genero</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postgenero/")]
         public ActionResult PostGenero([FromBody] EGenero gen)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Genero genero = new Genero();
-                //genero.IdGenero = gen.IdGenero;
-                genero.Nombre = gen.Nombre;
+                if (ModelState.IsValid)
+                {
+                    Genero genero = new Genero();
+                    //genero.IdGenero = gen.IdGenero;
+                    genero.Nombre = gen.Nombre;
 
-                var generos = _genero.PostGenero(genero);
-                return Ok(generos);
+                    var generos = _genero.PostGenero(genero);
+                    if (generos != null)
+                    {
+                        Program._log.Information("Éxito al crear género nuevo");
+                        return Ok(generos);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al crear un género nuevo");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al crear un género nuevo. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización datos de un género
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -531,75 +929,154 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="gen"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Genero Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putgenero/")]
         public ActionResult PutGenero([FromBody] EUGenero gen)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Genero genero = new Genero();
-                genero.IdGenero = gen.IdGenero;
-                genero.Nombre = gen.Nombre;
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Genero genero = new Genero();
+                    genero.IdGenero = gen.IdGenero;
+                    genero.Nombre = gen.Nombre;
 
-                answer = _genero.PutGenero(genero);
-                if (answer)
-                    return Ok();
+                    answer = _genero.PutGenero(genero);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar datos del género con id " + gen.IdGenero);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Information("Género con id " + gen.IdGenero + " no encontrado");
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar datos del genero. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de un género
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Genero Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deletegenero/{id}")]
         public ActionResult DeleteGenero(int id)
         {
-            Boolean answer = _genero.DeleteGenero(id);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _genero.DeleteGenero(id);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar genero con id " + id);
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Warning("Genero con id " + id + " no encontrado");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
 
         #region SerieGenero 
-        //GetSerieGenero => getseries/
         /// <summary>
-        /// GetSerieGenero method
+        /// Obtención de todas las filas de SerieGenero
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getseriegeneros/")]
         public ActionResult GetSerieGenero()
         {
-            return Ok(_serieGenero.GetAll());
+            try
+            {
+                return Ok(_serieGenero.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de una fila de SerieGenero
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="genero"></param>
-        /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">SerieGenero Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getseriegenero/{serie}/{genero}")]
         public ActionResult GetSerieGenero(int serie, int genero)
         {
-            var seriegeneros = _serieGenero.GetSerieGenero(serie, genero);
-            if (seriegeneros != null)
-                return Ok(seriegeneros);
-            else
-                return NotFound();
-
+            try
+            {
+                var seriegeneros = _serieGenero.GetSerieGenero(serie, genero);
+                if (seriegeneros != null)
+                {
+                    Program._log.Information("Éxito al buscar fila SerieGenero con idSerie " + serie + " e idGenero " + genero);
+                    return Ok(seriegeneros);
+                }
+                else
+                {
+                    Program._log.Warning("Error al buscar SerieGenero con idSerie " + serie + " e idGenero " + genero);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostSerieGenero method
+        /// Inserción de fila en SerieGenero
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -612,26 +1089,52 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="sergen"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Error al crear SerieGenero</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postseriegenero/")]
         public ActionResult PostSerieGenero([FromBody] ESerieGenero sergen)
         {
-            if (ModelState.IsValid)
+            try
             {
-                SerieGenero seriegenero = new SerieGenero();
-                seriegenero.GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero);
-                seriegenero.SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie);
+                if (ModelState.IsValid)
+                {
+                    SerieGenero seriegenero = new SerieGenero();
+                    seriegenero.GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero);
+                    seriegenero.SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie);
 
-                var serieGeneros = _serieGenero.PostSerieGenero(seriegenero);
-                return Ok(serieGeneros);
+                    var serieGeneros = _serieGenero.PostSerieGenero(seriegenero);
+                    if (serieGeneros != null)
+                    {
+                        Program._log.Information("Éxito al insertar fila en SerieGenero");
+                        return Ok(serieGeneros);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al insertar fila en SerieGenero");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al insertar fila en SerieGenero. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de fila de SerieGenero
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -646,86 +1149,181 @@ namespace API_ISDb.Controllers
         /// <param name="serie"></param>
         /// <param name="genero"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">SerieGenero Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putseriegenero/{serie}/{genero}")]
         public ActionResult PutSerieGenero([FromBody] ESerieGenero sergen, int serie, int genero)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                SerieGenero seriegenero = new SerieGenero();
-                seriegenero.GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero);
-                seriegenero.SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie);
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    SerieGenero seriegenero = new SerieGenero();
+                    seriegenero.GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero);
+                    seriegenero.SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie);
 
-                answer = _serieGenero.PutSerieGenero(seriegenero, serie, genero);
-                if (answer)
-                    return Ok();
+                    answer = _serieGenero.PutSerieGenero(seriegenero, serie, genero);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar datos de SerieGenero con idSerie " + serie + " e idGenero " + genero);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar datos de SerieGenero con idSerie " + serie + " e idGenero " + genero);
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar datos de SerieGenero. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de SerieGenero
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="genero"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">SerieGenero Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deleteseriegenero/{serie}/{genero}")]
         public ActionResult DeleteSerieGenero(int serie, int genero)
         {
-            Boolean answer = _serieGenero.DeleteSerieGenero(serie, genero);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _serieGenero.DeleteSerieGenero(serie, genero);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar SerieGenero con idSerie " + serie + " e idGenero " + genero);
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Information("Error al borrar SerieGenero con idSerie " + serie + " e idGenero " + genero);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
 
         #region Reparto
-        /// //GetRepartos => getrepartos/
         /// <summary>
-        /// GetRepartos method
+        /// Obtención de todo el reparto de una serie
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getrepartos/{serie}")]
         public ActionResult GetRepartos(int serie)
         {
-            return Ok(_reparto.GetRepartos(serie));
+            try
+            {
+                return Ok(_reparto.GetRepartos(serie));
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de todas las filas de Reparto. Puede tardar.
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getrepartosall/")]
         public ActionResult GetRepartosAll()
         {
-            return Ok(_reparto.GetAll());
+            try
+            {
+                return Ok(_reparto.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de una fila de Reparto en concreto
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Reparto Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getreparto/{id}")]
         public ActionResult GetReparto(int id)
         {
-            var repartos = _reparto.GetReparto(id);
-            if (repartos != null)
-                return Ok(repartos);
-            else
-                return NotFound();
-
+            try
+            {
+                var repartos = _reparto.GetReparto(id);
+                if (repartos != null)
+                {
+                    Program._log.Information("Éxito al buscar reparto con id " + id);
+                    return Ok(repartos);
+                }
+                else
+                {
+                    Program._log.Warning("Error al buscar reparto con id " + id);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostReparto method
+        /// Inserción de una fila en Reparto
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -738,27 +1336,53 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="rep"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Error al insertar fila en Reparto</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postreparto/")]
         public ActionResult PostReparto([FromBody] EReparto rep)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Reparto reparto = new Reparto();
-                //reparto.IdReparto = rep.IdReparto;
-                reparto.Name = rep.Name;
-                reparto.Foto = rep.Foto;
+                if (ModelState.IsValid)
+                {
+                    Reparto reparto = new Reparto();
+                    //reparto.IdReparto = rep.IdReparto;
+                    reparto.Name = rep.Name;
+                    reparto.Foto = rep.Foto;
 
-                var repartos = _reparto.PostReparto(reparto);
-                return Ok(repartos);
+                    var repartos = _reparto.PostReparto(reparto);
+                    if (repartos != null)
+                    {
+                        Program._log.Information("Éxito al insertar un nuevo Reparto");
+                        return Ok(repartos);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al insertar un nuevo Reparto");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al insertar un nuevo Reparto. Bad Request");
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de datos de Reparto
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -772,74 +1396,155 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="rep"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Reparto Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putreparto/")]
         public ActionResult PutReparto([FromBody] EUReparto rep)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Reparto reparto = new Reparto();
-                reparto.IdReparto = rep.IdReparto;
-                reparto.Name = rep.Name;
-                reparto.Foto = rep.Foto;
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Reparto reparto = new Reparto();
+                    reparto.IdReparto = rep.IdReparto;
+                    reparto.Name = rep.Name;
+                    reparto.Foto = rep.Foto;
 
-                answer = _reparto.PutReparto(reparto);
-                if (answer)
-                    return Ok();
+                    answer = _reparto.PutReparto(reparto);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar datos de Reparto con id " + rep.IdReparto);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar datos de Reparto con id " + rep.IdReparto);
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar datos de Reparto. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de una fila de Reparto
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Reparto Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deletereparto/{id}")]
         public ActionResult DeleteReparto(int id)
         {
-            Boolean answer = _reparto.DeleteReparto(id);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _reparto.DeleteReparto(id);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar Reparto con id " + id);
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Warning("Error al borrar Reparto con id " + id);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
 
         #region Role 
-        //GetRoles => getroles/
         /// <summary>
-        /// GetRoles method
+        /// Obtención de todos los roles
         /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getroles/")]
         public ActionResult GetRoles()
         {
-            return Ok(_role.GetAll());
+            try
+            {
+                return Ok(_role.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de un role
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Role Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getrole/{id}")]
         public ActionResult GetRole(int id)
         {
-            var roles = _role.GetRole(id);
-            if (roles != null)
-                return Ok(roles);
-            else
-                return NotFound();
-
+            try
+            {
+                var roles = _role.GetRole(id);
+                if (roles != null)
+                {
+                    Program._log.Information("Éxito al buscar role con id " + id);
+                    return Ok(roles);
+                }
+                else
+                {
+                    Program._log.Warning("Error al buscar role con id " + id);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostRole method
+        /// Inserción de Role nuevo
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -851,26 +1556,52 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="rol"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Error al insertar role nuevo</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postrole/")]
         public ActionResult PostRole([FromBody] ERole rol)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Role role = new Role();
-                //role.IdRole = rol.IdRole;
-                role.Nombre = rol.Nombre;
+                if (ModelState.IsValid)
+                {
+                    Role role = new Role();
+                    //role.IdRole = rol.IdRole;
+                    role.Nombre = rol.Nombre;
 
-                var roles = _role.PostRole(role);
-                return Ok(roles);
+                    var roles = _role.PostRole(role);
+                    if (roles != null)
+                    {
+                        Program._log.Information("Éxito al insertar role");
+                        return Ok(roles);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al insertar role");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al insertar role. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de datos de role
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -883,75 +1614,155 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="rol"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Role Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putrole/")]
         public ActionResult PutRole([FromBody] EURole rol)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Role role = new Role();
-                role.IdRole = rol.IdRole;
-                role.Nombre = rol.Nombre;
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Role role = new Role();
+                    role.IdRole = rol.IdRole;
+                    role.Nombre = rol.Nombre;
 
-                answer = _role.PutRole(role);
-                if (answer)
-                    return Ok();
+                    answer = _role.PutRole(role);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar datos de role");
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar datos de role");
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar datos de role. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de role
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Role Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deleterole/{id}")]
         public ActionResult DeleteRole(int id)
         {
-            Boolean answer = _role.DeleteRole(id);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _role.DeleteRole(id);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar role");
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Warning("Error al borrar role");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
 
         #region RepartoRole 
-        //GetRepartoRoles => getrepartorole/
         /// <summary>
-        /// GetRepartoRoles method
+        /// Obtención de todos los datos de RepartoRole
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getrepartoroles/")]
         public ActionResult GetRepartoRoles()
         {
-            return Ok(_repartoRole.GetAll());
+            try
+            {
+                return Ok(_repartoRole.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de una fila de RepartoRole
         /// </summary>
         /// <param name="reparto"></param>
         /// <param name="role"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">RepartoRole Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getrepartorole/{reparto}/{role}")]
         public ActionResult GetRepartoRole(int reparto, int role)
         {
-            var repartoRole = _repartoRole.GetRepartoRole(reparto, role);
-            if (repartoRole != null)
-                return Ok(repartoRole);
-            else
-                return NotFound();
-
+            try
+            {
+                var repartoRole = _repartoRole.GetRepartoRole(reparto, role);
+                if (repartoRole != null)
+                {
+                    Program._log.Information("Éxito al obtener fila de RepartoRole con idReparto " + reparto + " e idRole " + role);
+                    return Ok(repartoRole);
+                }
+                else
+                {
+                    Program._log.Warning("Error al obtener fila de RepartoRole con idReparto " + reparto + " e idRole " + role);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostRepartoRole method
+        /// Inserción en RepartoRole
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -964,26 +1775,52 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="repRole"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Error al insertar en RepartoRole</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postrepartorole/")]
         public ActionResult PostRepartoRole([FromBody] ERepartoRole repRole)
         {
-            if (ModelState.IsValid)
+            try
             {
-                RepartoRole repartoRole = new RepartoRole();
-                repartoRole.RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto);
-                repartoRole.RoleIdRole = Convert.ToInt32(repRole.RoleIdRole);
+                if (ModelState.IsValid)
+                {
+                    RepartoRole repartoRole = new RepartoRole();
+                    repartoRole.RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto);
+                    repartoRole.RoleIdRole = Convert.ToInt32(repRole.RoleIdRole);
 
-                var repartoRoles = _repartoRole.PostRepartoRole(repartoRole);
-                return Ok(repartoRoles);
+                    var repartoRoles = _repartoRole.PostRepartoRole(repartoRole);
+                    if (repartoRoles != null)
+                    {
+                        Program._log.Information("Éxito al insertar fila en RepartoRole");
+                        return Ok(repartoRoles);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al insertar fila en RepartoRole");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al insertar fila en RepartoRole. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de datos de RepartoRole
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -998,76 +1835,156 @@ namespace API_ISDb.Controllers
         /// <param name="reparto"></param>
         /// <param name="role"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">RepartoRole Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putrepartorole/{reparto}/{role}")]
         public ActionResult PutRepartoRole([FromBody] ERepartoRole repRole, int reparto, int role)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                RepartoRole repartoRole = new RepartoRole();
-                repartoRole.RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto);
-                repartoRole.RoleIdRole = Convert.ToInt32(repRole.RoleIdRole);
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    RepartoRole repartoRole = new RepartoRole();
+                    repartoRole.RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto);
+                    repartoRole.RoleIdRole = Convert.ToInt32(repRole.RoleIdRole);
 
-                answer = _repartoRole.PutRepartoRole(repartoRole, reparto, role);
-                if (answer)
-                    return Ok();
+                    answer = _repartoRole.PutRepartoRole(repartoRole, reparto, role);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar datos de RepartoRole con idReparto " + reparto + " e idRole " + role);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar datos de RepartoRole con idReparto " + reparto + " e idRole " + role);
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar datos de RepartoRole. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de RepartoROle
         /// </summary>
         /// <param name="reparto"></param>
         /// <param name="role"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">RepartoRole Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deleterepartorole/{reparto}/{role}")]
         public ActionResult DeleteRepartoRole(int reparto, int role)
         {
-            Boolean answer = _repartoRole.DeleteRepartoRole(reparto, role);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _repartoRole.DeleteRepartoRole(reparto, role);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar RepartoRole con idReparto " + reparto + " e idRole " + role);
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Warning("Error al borrar RepartoRole con idReparto " + reparto + " e idRole " + role);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
 
         #region SerieReparto 
-        //GetSerieRepartos => getserierepartos/
         /// <summary>
-        /// GetSerieRepartos method
+        /// Obtención de todas las filas de SerieReparto
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getserierepartos/")]
         public ActionResult GetSerieRepartos()
         {
-            return Ok(_serieReparto.GetAll());
+            try
+            {
+                return Ok(_serieReparto.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de una fila de SerieReparto
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="reparto"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">SerieReparto Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpGet("getseriereparto/{serie}/{reparto}")]
         public ActionResult GetSerieReparto(int serie, int reparto)
         {
-            var serieRepartos = _serieReparto.GetSerieReparto(serie, reparto);
-            if (serieRepartos != null)
-                return Ok(serieRepartos);
-            else
-                return NotFound();
-
+            try
+            {
+                var serieRepartos = _serieReparto.GetSerieReparto(serie, reparto);
+                if (serieRepartos != null)
+                {
+                    Program._log.Information("Éxito al buscar SerieReparto con idSerie " + serie + " e idReparto " + reparto);
+                    return Ok(serieRepartos);
+                }
+                else
+                {
+                    Program._log.Warning("Error al buscar SerieReparto con idSerie " + serie + " e idReparto " + reparto);
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// PostSerieReparto method
+        /// Inserción en SerieReparto
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -1080,26 +1997,52 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="serRep"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">Error al insertar en SerieReparto</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPost("postseriereparto/")]
         public ActionResult PostSerieReparto([FromBody] ESerieReparto serRep)
         {
-            if (ModelState.IsValid)
+            try
             {
-                SerieReparto serieReparto = new SerieReparto();
-                serieReparto.SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie);
-                serieReparto.RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto);
+                if (ModelState.IsValid)
+                {
+                    SerieReparto serieReparto = new SerieReparto();
+                    serieReparto.SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie);
+                    serieReparto.RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto);
 
-                var serieRepartos = _serieReparto.PostSerieReparto(serieReparto);
-                return Ok(serieRepartos);
+                    var serieRepartos = _serieReparto.PostSerieReparto(serieReparto);
+                    if (serieRepartos != null)
+                    {
+                        Program._log.Information("Éxito al insertar en SerieReparto");
+                        return Ok(serieRepartos);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al insertar en SerieReparto");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al insertar en SerieReparto. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de datos en SerieReparto
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -1114,42 +2057,87 @@ namespace API_ISDb.Controllers
         /// <param name="serie"></param>
         /// <param name="reparto"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">SerieReparto Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpPut("putseriereparto/{serie}/{reparto}")]
         public ActionResult PutSerieReparto([FromBody] ESerieReparto serRep, int serie, int reparto)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                SerieReparto serieReparto = new SerieReparto();
-                serieReparto.SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie);
-                serieReparto.RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto);
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    SerieReparto serieReparto = new SerieReparto();
+                    serieReparto.SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie);
+                    serieReparto.RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto);
 
-                answer = _serieReparto.PutSerieReparto(serieReparto, serie, reparto);
-                if (answer)
-                    return Ok();
+                    answer = _serieReparto.PutSerieReparto(serieReparto, serie, reparto);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar datos de SerieReparto con idSerie " + serie + " e idReparto " + reparto);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar datos de SerieReparto con idSerie " + serie + " e idReparto " + reparto);
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar datos en SerieReparto. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Borrado de SerieReparto
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="reparto"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="403">Forbidden Access</response>
+        /// <response code="404">SerieReparto Not Found</response>
+        /// <response code="500">Internal Server Error</response> 
         [HttpDelete("deleteseriereparto/{serie}/{reparto}")]
         public ActionResult DeleteSerieReparto(int serie, int reparto)
         {
-            Boolean answer = _serieReparto.DeleteSerieReparto(serie, reparto);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
+            try
+            {
+                Boolean answer = _serieReparto.DeleteSerieReparto(serie, reparto);
+                if (answer)
+                {
+                    Program._log.Information("Éxito al borrar SerieReparto");
+                    return Ok();
+                }
+                else
+                {
+                    Program._log.Warning("SerieReparto no encontrado");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
         #endregion
     }

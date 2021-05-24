@@ -24,7 +24,7 @@ namespace API_ISDb.Controllers
         private IReviewService _review;
 
         /// <summary>
-        /// 
+        /// General Controller constructor
         /// </summary>
         /// <param name="user"></param>
         /// <param name="serie"></param>
@@ -43,87 +43,128 @@ namespace API_ISDb.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Obtención de todas las series
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="500">Internal Server Error</response>
         [AllowAnonymous]
         [HttpGet("getseries/")]
         public ActionResult GetAllSeries()
         {
-            return Ok(_serie.GetAll());
+            try
+            {
+                return Ok(_serie.GetAll());
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de la información de una serie
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="500">Internal Server Error</response>
         [AllowAnonymous]
         [HttpGet("getserie/{id}")]
         public ActionResult GetSerie(int id)
         {
-            return Ok(_general.GetInfoSerie(id));
+            try
+            {
+                return Ok(_general.GetInfoSerie(id));
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención del id y titulo de las series para el SearchBox
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet("getgenero/{id}")]
-        public ActionResult GetGeneros(int id)
-        {
-            return Ok(_genero.GetGeneros(id));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet("getreparto/{id}")]
-        public ActionResult GetReparto(int id)
-        {
-            return Ok(_reparto.GetRepartos(id));
-        }
-
-        /// <summary>
-        /// Devuelve los nombres de las series y su id
-        /// </summary>
-        /// <param name="serie"></param>
-        /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="404">Tabla Serie vacía</response>        
+        /// <response code="500">Internal Server Error</response>
         [AllowAnonymous]
         [HttpGet("searchserie/")]
         public ActionResult SearchSerie()
         {
-            IEnumerable<SearchSerie> response = _general.SearchSerie();
-            if (response.Count() != 0)
+            try
             {
-                return Ok(response);
+                IEnumerable<SearchSerie> response = _general.SearchSerie();
+                if (response.Count() != 0)
+                {
+                    Program._log.Information("Éxito al obtener id y titulo de las series");
+                    return Ok(response);
+                }
+                else
+                {
+                    Program._log.Warning("Tabla Serie vacía");
+                    return NotFound();
+                }
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Obtención de la información de un Usuario
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="404">Usuario Not Found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpGet("getusuario/{id}")]
         public ActionResult GetUsuario(int id)
         {
-            var usuarios = _user.GetUsuario(id);
-            if (usuarios != null)
-                return Ok(usuarios);
-            else
-                return NotFound();
-
+            try
+            {
+                var usuarios = _user.GetUsuario(id);
+                if (usuarios != null)
+                {
+                    Program._log.Information("Éxito al obtener información de Usuario con id " + id);
+                    return Ok(usuarios);
+                }
+                else
+                {
+                    Program._log.Warning("Usuario con id " + id + " no encontrado");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }
         }
 
+        /*
         /// <summary>
-        /// 
+        /// Actualización de los datos del usuario
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -146,121 +187,186 @@ namespace API_ISDb.Controllers
         [HttpPut("putusuario/")]
         public ActionResult PutUsuario([FromBody] EUUsuario user)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Usuario usuario = new Usuario();
-                usuario.IdUsuario = user.IdUsuario;
-                usuario.Username = user.Username;
-                //usuario.Password = Encrypt.GetSHA256(user.Password);
-                usuario.Email = user.Email;
-                usuario.Tipo = user.Tipo;
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Usuario usuario = new Usuario();
+                    usuario.IdUsuario = user.IdUsuario;
+                    usuario.Username = user.Username;
+                    //usuario.Password = Encrypt.GetSHA256(user.Password);
+                    usuario.Email = user.Email;
+                    usuario.Tipo = user.Tipo;
 
-                answer = _user.PutUsuario(usuario);
-                if (answer)
-                    return Ok();
+                    answer = _user.PutUsuario(usuario);
+                    if (answer)
+                        return Ok();
+                    else
+                        return NotFound();
+                }
                 else
-                    return NotFound();
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
+        */
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("deleteusuario/{id}")]
-        public ActionResult DeleteUsuario(int id)
-        {
-            Boolean answer = _user.DeleteUsuario(id);
-            if (answer)
-                return Ok();
-            else
-                return NotFound();
-        }
-
-        /// <summary>
-        /// 
+        /// Actualización de password del usuario
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="404">Usuario Not Found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPut("updatepass")]
         public ActionResult UpdatePassword(EUPassword user)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Usuario usuario = _user.GetUsuario(Convert.ToInt32(user.idUser));
-                usuario.Password = Encrypt.GetSHA256(user.Password);
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Usuario usuario = _user.GetUsuario(Convert.ToInt32(user.idUser));
+                    usuario.Password = Encrypt.GetSHA256(user.Password);
 
-                answer = _user.PutUsuario(usuario);
-                if (answer)
-                    return Ok();
+                    answer = _user.PutUsuario(usuario);
+                    if (answer)
+                    {
+                        Program._log.Information("Actualización de contraseña con éxito del usuario " + user.idUser);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar contraseña. Usuario Not Found");
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar contraseña. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Actualización de la información del usuario
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="404">Usuario Not Found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPut("updateinfo")]
         public ActionResult UpdateInfUser(EUInfo user)
         {
-            Boolean answer = false;
-            if (ModelState.IsValid)
+            try
             {
-                Usuario usuario = _user.GetUsuario(Convert.ToInt32(user.IdUsuario));
-                usuario.Username = user.Username;
-                usuario.Email = user.Email;
+                Boolean answer = false;
+                if (ModelState.IsValid)
+                {
+                    Usuario usuario = _user.GetUsuario(Convert.ToInt32(user.IdUsuario));
+                    usuario.Username = user.Username;
+                    usuario.Email = user.Email;
 
-                answer = _user.PutUsuario(usuario);
-                if (answer)
-                    return Ok();
+                    answer = _user.PutUsuario(usuario);
+                    if (answer)
+                    {
+                        Program._log.Information("Éxito al actualizar información del usuario con id " + user.IdUsuario);
+                        return Ok();
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al actualizar información del usuario. Not Found");
+                        return NotFound();
+                    }
+                }
                 else
-                    return NotFound();
+                {
+                    Program._log.Warning("Error al actualizar información del usuario. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
 
         /// <summary>
-        /// 
+        /// Creación de una nueva review
         /// </summary>
         /// <param name="rev"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Bad Request Error</response>        
+        /// <response code="401">Authorization information is missing or invalid</response>
+        /// <response code="404">Error al crear Review</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPost("postreview/")]
         public ActionResult PostReview([FromBody] EReview rev)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Review review = new Review();
-                //review.IdReview = rev.IdReview;
-                review.Titulo = rev.Titulo;
-                review.Descripcion = rev.Descripcion;
-                review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
-                review.Fecha = DateTime.Now;
-                review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
-                review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
+                if (ModelState.IsValid)
+                {
+                    Review review = new Review();
+                    //review.IdReview = rev.IdReview;
+                    review.Titulo = rev.Titulo;
+                    review.Descripcion = rev.Descripcion;
+                    review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
+                    review.Fecha = DateTime.Now;
+                    review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
+                    review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
 
-                var reviews = _review.PostReview(review);
-                return Ok(reviews);
+                    var reviews = _review.PostReview(review);
+                    if (reviews != null)
+                    {
+                        Program._log.Information("Éxito al crear una nueva review");
+                        return Ok(reviews);
+                    }
+                    else
+                    {
+                        Program._log.Warning("Error al crear una nueva review");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Error al crear una nueav review. Bad Request");
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
             }
         }
     }

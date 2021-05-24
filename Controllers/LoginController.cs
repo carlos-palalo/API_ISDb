@@ -35,7 +35,6 @@ namespace API_ISDb.Controllers
         #endregion
 
         #region Login Validation  
-        //Login => login/
         /// <summary>
         /// Login method
         /// </summary>
@@ -48,13 +47,13 @@ namespace API_ISDb.Controllers
         ///         "password": "your-password"
         ///     }
         /// </remarks>
+        /// <returns></returns>
         /// <response code="200">Login success</response>
         /// <response code="400">Exception. Bad Request</response>
-        /// <response code="401">Authorization information is missing or invalid</response>
         /// <response code="404">Login failed</response>
+        /// <response code="500">Internal Server Error</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        [Produces("application/json", Type = typeof(string))]
         public IActionResult DoLogin([FromBody] ELogin users)
         {
             try
@@ -73,18 +72,20 @@ namespace API_ISDb.Controllers
                         Program._log.Information("Login successfull");
                         return Ok(new { username = user.Username, tipo = user.Tipo, token = response });
                     }
-
-                    Program._log.Warning("Login Failed");
-                    return NotFound("Login Failed. Username or password not found");
+                    else
+                    {
+                        Program._log.Warning("Login Failed");
+                        return NotFound("Login Failed. Username or password not found");
+                    }
                 }
                 else
                 {
-                    return NotFound();
+                    Program._log.Warning("Login Failed. Bad Request");
+                    return BadRequest();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
                 ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
                 response.StatusCode = 500;
@@ -94,7 +95,7 @@ namespace API_ISDb.Controllers
         #endregion
 
         /// <summary>
-        /// 
+        /// Register method
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -108,25 +109,49 @@ namespace API_ISDb.Controllers
         /// </remarks>
         /// <param name="user"></param>
         /// <returns></returns>
+        /// <response code="200">Register success</response>
+        /// <response code="400">Exception. Bad Request</response>
+        /// <response code="404">Register failed</response>
+        /// <response code="500">Internal Server Error</response>
         [AllowAnonymous]
         [HttpPost("register/")]
         public ActionResult Register([FromBody] ERegister user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Usuario usuario = new Usuario();
-                usuario.Username = user.Username;
-                usuario.Password = user.Password;
-                usuario.Email = user.Email;
-                usuario.Tipo = "normal";
+                if (ModelState.IsValid)
+                {
+                    Usuario usuario = new Usuario();
+                    usuario.Username = user.Username;
+                    usuario.Password = user.Password;
+                    usuario.Email = user.Email;
+                    usuario.Tipo = "normal";
 
-                string token = _user.register(usuario);
-                return Ok(new { username = usuario.Username, tipo = usuario.Tipo, token = token });
+                    string token = _user.register(usuario);
+                    if (!token.Equals(""))
+                    {
+                        Program._log.Information("Register successfull");
+                        return Ok(new { username = usuario.Username, tipo = usuario.Tipo, token = token });
+                    }
+                    else
+                    {
+                        Program._log.Warning("Register Failed");
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    Program._log.Warning("Register Failed. Bad Request");
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
-            }
+                Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                response.StatusCode = 500;
+                return response;
+            }  
         }
     }
 }
