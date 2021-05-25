@@ -14,5 +14,11 @@ namespace API_ISDb
 
         public virtual Reparto RepartoIdRepartoNavigation { get; set; }
         public virtual Role RoleIdRoleNavigation { get; set; }
+
+        //private readonly Reparto _repartoIdRepartoNavigation;
+        //public virtual Reparto RepartoIdRepartoNavigation => _repartoIdRepartoNavigation;
+
+        //private readonly Role _roleIdRoleNavigation;
+        //public virtual Role RoleIdRoleNavigation => _roleIdRoleNavigation;
     }
 }

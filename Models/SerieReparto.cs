@@ -12,6 +12,12 @@ namespace API_ISDb
         public int SerieIdSerie { get; set; }
         public int RepartoIdReparto { get; set; }
 
+        //private readonly Reparto _repartoIdRepartoNavigation;
+        //public virtual Reparto RepartoIdRepartoNavigation => _repartoIdRepartoNavigation;
+
+        //private readonly Reparto _serieIdSerieNavigation;
+        //public virtual Reparto SerieIdSerieNavigation => _serieIdSerieNavigation;
+        
         public virtual Reparto RepartoIdRepartoNavigation { get; set; }
         public virtual Serie SerieIdSerieNavigation { get; set; }
     }

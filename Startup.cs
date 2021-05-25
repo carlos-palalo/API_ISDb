@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
@@ -41,7 +43,8 @@ namespace API_ISDb
                 .AddTransient<IImdbService, ImdbService>();
 
             services.AddDbContext<proyectoContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("Default")));
+                options.UseMySQL(Configuration.GetConnectionString("Default"))
+                       .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
             services.AddControllers();
             services.AddMvc();

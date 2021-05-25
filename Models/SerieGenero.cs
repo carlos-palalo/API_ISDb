@@ -14,5 +14,11 @@ namespace API_ISDb
 
         public virtual Genero GeneroIdGeneroNavigation { get; set; }
         public virtual Serie SerieIdSerieNavigation { get; set; }
+
+        //private readonly Genero _generoIdGeneroNavigation;
+        //public virtual Genero GeneroIdGeneroNavigation => _generoIdGeneroNavigation;
+
+        //private readonly Serie _serieIdSerieNavigation;
+        //public virtual Serie SerieIdSerieNavigation => _serieIdSerieNavigation;
     }
 }

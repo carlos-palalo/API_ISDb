@@ -94,139 +94,21 @@ namespace API_ISDb.Services
             string url = "";
             int cont = 0;   //MAX 100 PER DAY
             url = urlBase + urlTop;
+            Reparto addRep;
+            List<string> list = new List<string>();
+            List<string> role;
 
             RequestSeries.Root responseTop250 = JsonConvert.DeserializeObject<RequestSeries.Root>(Request(url));
 
-            foreach (Item serie in responseTop250.items)
-            {
-                if (cont >= 1)
-                    return true;
-
-                if (_serie.Search(serie.title) == null)
-                {
-                    url = urlBase + urlSerie + serie.id + auxUrlSerie;
-                    RequestSerie.Root responseSerie = JsonConvert.DeserializeObject<RequestSerie.Root>(Request(url));
-                    Console.WriteLine(responseSerie.title);
-
-                    //Inserto la serie
-                    var infoSerie = new Serie
-                    {
-                        Titulo = responseSerie.title,
-                        Poster = responseSerie.image,
-                        Year = Int32.Parse(responseSerie.year),
-                        Trailer = responseSerie.trailer.linkEmbed,
-                        Sinopsis = responseSerie.plot,
-                        SerieGenero = new Collection<SerieGenero>
-                        {
-                            
-                        }
-                    };
-                    _context.Add(infoSerie);
-                    _context.SaveChanges();
-
-                    //Obtengo id de la serie recien insertada
-                    var idSerie = _context.Serie.FirstOrDefault(x => x.Titulo == responseSerie.title).IdSerie;
-
-                    /******************************************************************************/
-
-                    //Lista de nombres de generos en la DB
-                    var listDbG = _context.Genero
-                        .Select(x => x.Nombre)
-                        .ToList();
-
-                    //Lista de nombres de generos de la API externa
-                    var listG = responseSerie.genreList
-                        .Select(x => x.value)
-                        .ToList();
-
-                    //Compruebo si existen los generos de la consulta en la DB y selecciono sus ID
-                    var gExist = _context.Genero
-                        .Where(x => listG.Contains(x.Nombre))
-                        .Select(x => x.IdGenero)
-                        .ToList();
-
-                    //Añado filas a SerieGenero en la DB con el idSerie y los ID de gExist
-                    List<SerieGenero> sg = new List<SerieGenero>();
-                    foreach (var id in gExist)
-                    {
-                        sg.Add(new SerieGenero { GeneroIdGenero = id, SerieIdSerie = idSerie });
-                    }
-                    _context.SerieGenero.AddRange(sg);
-
-                    //Selecciono los generos que no están en la Db
-                    var gNExist = responseSerie.genreList
-                        .Where(x => !listDbG.Contains(x.value))
-                        .Select(x => x.value)
-                        .ToList();
-
-                    //Añado los generos nuevos
-                    List<Genero> g = new List<Genero>();
-                    foreach (var name in gNExist)
-                    {
-                        g.Add(new Genero { Nombre = name });
-                    }
-                    _context.Genero.AddRange(g);
-
-                    //Obtengo los ids de los generos recientemente añadidos
-                    var idListG = _context.Genero
-                        .Where(x => gNExist.Contains(x.Nombre))
-                        .Select(x => x.IdGenero)
-                        .ToList();
-
-                    //Añado filas a SerieGenero con el idSerie y los ID de los generos nuevos
-                    List<SerieGenero> sgnew = new List<SerieGenero>();
-                    foreach (var id in idListG)
-                    {
-                        sgnew.Add(new SerieGenero { GeneroIdGenero = id, SerieIdSerie = idSerie });
-                    }
-                    _context.SerieGenero.AddRange(sgnew);
-
-                    /******************************************************************************/
-
-                    /******************************************************************************/
-
-                    //Lista de nombres de la tabla Reparto
-                    var listDbR = _context.Reparto.Select(x => x.Name).ToList();
-
-                    //Lista de nombres de directores de la consulta
-                    var listaRDir = responseSerie.fullCast.directors.items.Select(x => x.name);
-
-                    //Lista de nombres de directores de la consulta
-                    var listaRWrt = responseSerie.fullCast.writers.items.Select(x => x.name);
-
-                    //Lista de nombres de directores de la consulta
-                    var listaRAct = responseSerie.fullCast.actors.Select(x => x.name);
-
-                    //Lista ID de directores en Db
-                    var idRDirExist = _context.Reparto
-                        .Where(x => listaRDir.Contains(x.Name))
-                        .Select(x=>x.IdReparto).ToList();
-
-                    //Lista ID de escritores en Db
-                    var idRWrtExist = _context.Reparto
-                        .Where(x => listaRWrt.Contains(x.Name))
-                        .Select(x => x.IdReparto).ToList();
-
-                    //Lista ID de actores en Db
-                    var idRActExist = _context.Reparto
-                        .Where(x => listaRAct.Contains(x.Name))
-                        .Select(x => x.IdReparto).ToList();
-
-                    /******************************************************************************/
-                    cont++;
-
-                };
-            }
-
-            /*
             foreach (Item item in responseTop250.items)
             {
-                if (cont == 5)
+                if (cont == 41)
                     return true;
 
                 Serie ser = _serie.Search(item.title);
                 if (ser == null)
                 {
+                    url = urlBase + urlSerie + item.id + auxUrlSerie;
                     //Console.WriteLine(item.id);
                     string info = Request(url);
                     cont++;
@@ -239,7 +121,7 @@ namespace API_ISDb.Services
 
                     }
                 }
-            }*/
+            }
 
             return true;
         }
@@ -257,17 +139,11 @@ namespace API_ISDb.Services
 
             Serie serie = new Serie();
             serie.Titulo = obj.title;
-            serie.Poster = obj.image;
-            if (obj.year == null)
-                serie.Year = 0;
-            else
-                serie.Year = Int32.Parse(obj.year);
-            serie.Sinopsis = obj.plot;
-            //Console.WriteLine(obj.trailer);
-            if (obj.trailer == null)
-                return true;
 
-            serie.Trailer = obj.trailer.linkEmbed;
+            serie.Poster = obj.image == null ? "null" : obj.image;
+            serie.Year = obj.year == null ? 0 : Int32.Parse(obj.year);
+            serie.Sinopsis = obj.plot == null ? "null" : obj.plot;
+            serie.Trailer = obj.trailer.linkEmbed == null ? "null" : obj.trailer.linkEmbed;
 
             Serie ser = _serie.PostSerie(serie);
 
@@ -323,7 +199,7 @@ namespace API_ISDb.Services
                 reparto.Foto = actor.image;
                 Reparto rep = _reparto.PostReparto(reparto);
 
-                Role role = _role.Search("actor");
+                Role role = _role.Search(tipo);
 
                 RepartoRole rr = new RepartoRole();
                 rr.RepartoIdReparto = rep.IdReparto;
