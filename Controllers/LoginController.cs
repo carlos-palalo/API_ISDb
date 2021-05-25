@@ -70,7 +70,8 @@ namespace API_ISDb.Controllers
                     {
                         Usuario user = _user.GetCurrentUser(usuario);
                         Program._log.Information("Login successfull");
-                        return Ok(new { username = user.Username, tipo = user.Tipo, token = response });
+                        //return Ok(new { username = user.Username, tipo = user.Tipo, token = response });
+                        return Ok(response);
                     }
                     else
                     {
@@ -131,7 +132,8 @@ namespace API_ISDb.Controllers
                     if (!token.Equals(""))
                     {
                         Program._log.Information("Register successfull");
-                        return Ok(new { username = usuario.Username, tipo = usuario.Tipo, token = token });
+                        //return Ok(new { username = usuario.Username, tipo = usuario.Tipo, token = token });
+                        return Ok(token);
                     }
                     else
                     {
@@ -151,7 +153,7 @@ namespace API_ISDb.Controllers
                 ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
                 response.StatusCode = 500;
                 return response;
-            }  
+            }
         }
     }
 }

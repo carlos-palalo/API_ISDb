@@ -426,7 +426,7 @@ namespace API_ISDb.Controllers
                 {
                     Usuario usuario = new Usuario();
                     usuario.Username = user.Username;
-                    usuario.Password = Encrypt.GetSHA256(user.Password);
+                    usuario.Password = user.Password;
                     usuario.Email = user.Email;
 
                     var usuarios = _usuario.PostUsuario(usuario);
@@ -488,7 +488,7 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    Usuario usuario = new Usuario();
+                    Usuario usuario = _usuario.GetUsuario(Convert.ToInt32(user.IdUsuario));
                     usuario.IdUsuario = user.IdUsuario;
                     usuario.Username = user.Username;
                     //usuario.Password = Encrypt.GetSHA256(user.Password);
