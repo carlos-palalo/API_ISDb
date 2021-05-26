@@ -119,3 +119,5 @@
 [INF] -> 2021-05-26 11:24:03 ->  --> Éxito al obtener id y titulo de las series
 [INF] -> 2021-05-26 11:24:18 ->  --> Éxito al obtener id y titulo de las series
 [INF] -> 2021-05-26 11:24:57 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:26:23 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:34:30 ->  --> Éxito al obtener id y titulo de las series
