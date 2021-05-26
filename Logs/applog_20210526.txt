@@ -1,0 +1,121 @@
+[INF] -> 2021-05-26 10:25:56 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:25:58 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:26:13 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:26:16 ->  --> Éxito al obtener información del usuario con id 2
+[INF] -> 2021-05-26 10:26:16 ->  --> Éxito al obtener información del usuario con id 2
+[INF] -> 2021-05-26 10:26:19 ->  --> Éxito al actualizar datos del usuario eduardo
+[INF] -> 2021-05-26 10:28:24 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:28:30 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:28:31 ->  --> Éxito al obtener información del usuario con id 2
+[INF] -> 2021-05-26 10:28:31 ->  --> Éxito al obtener información del usuario con id 2
+[INF] -> 2021-05-26 10:28:34 ->  --> Éxito al actualizar datos del usuario eduardo
+[INF] -> 2021-05-26 10:28:41 ->  --> Éxito al obtener información del usuario con id 2
+[INF] -> 2021-05-26 10:28:41 ->  --> Éxito al obtener información del usuario con id 2
+[INF] -> 2021-05-26 10:28:44 ->  --> Éxito al actualizar datos del usuario eduardo2
+[INF] -> 2021-05-26 10:29:31 ->  --> Login successfull
+[INF] -> 2021-05-26 10:30:55 ->  --> Éxito al actualizar datos del usuario eduardo
+[INF] -> 2021-05-26 10:31:08 ->  --> Éxito al actualizar datos del usuario eduardo2
+[INF] -> 2021-05-26 10:31:15 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:31:33 ->  --> Éxito al actualizar datos del usuario eduardo2
+[INF] -> 2021-05-26 10:32:34 ->  --> Éxito al actualizar datos del usuario eduardo2
+[INF] -> 2021-05-26 10:33:13 ->  --> Login successfull
+[INF] -> 2021-05-26 10:36:12 ->  --> Éxito al actualizar datos del usuario eduardo2
+[INF] -> 2021-05-26 10:36:45 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:36:56 ->  --> Éxito al crear usuario
+[INF] -> 2021-05-26 10:37:00 ->  --> Éxito al obtener información del usuario con id 3
+[INF] -> 2021-05-26 10:37:00 ->  --> Éxito al obtener información del usuario con id 3
+[INF] -> 2021-05-26 10:37:42 ->  --> Éxito al actualizar datos del usuario nuevo
+[INF] -> 2021-05-26 10:37:48 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:45:10 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:45:10 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:45:13 ->  --> Éxito al obtener información del usuario con id 3
+[INF] -> 2021-05-26 10:45:13 ->  --> Éxito al obtener información del usuario con id 3
+[INF] -> 2021-05-26 10:45:43 ->  --> Éxito al actualizar datos del usuario nuevo
+[INF] -> 2021-05-26 10:45:51 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:45:54 ->  --> Éxito al obtener información del usuario con id 3
+[INF] -> 2021-05-26 10:45:54 ->  --> Éxito al obtener información del usuario con id 3
+[INF] -> 2021-05-26 10:46:13 ->  --> Éxito al actualizar datos del usuario nuevo2
+[INF] -> 2021-05-26 10:46:22 ->  --> Éxito al borrar el usuario con id 3
+[INF] -> 2021-05-26 10:49:32 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:04 ->  --> Éxito al crear usuario
+[INF] -> 2021-05-26 10:50:07 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:16 ->  --> Login successfull
+[INF] -> 2021-05-26 10:50:16 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:18 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:18 ->  --> Éxito al obtener información de Usuario con id 4
+[INF] -> 2021-05-26 10:50:21 ->  --> Éxito al actualizar información del usuario con id 4
+[INF] -> 2021-05-26 10:50:21 ->  --> Éxito al obtener información de Usuario con id 4
+[INF] -> 2021-05-26 10:50:24 ->  --> Éxito al obtener información de Usuario con id 4
+[INF] -> 2021-05-26 10:50:24 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:26 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:34 ->  --> Login successfull
+[INF] -> 2021-05-26 10:50:34 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:36 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:36 ->  --> Éxito al obtener información de Usuario con id 4
+[INF] -> 2021-05-26 10:50:44 ->  --> Actualización de contraseña con éxito del usuario 4
+[INF] -> 2021-05-26 10:50:44 ->  --> Éxito al obtener información de Usuario con id 4
+[INF] -> 2021-05-26 10:50:48 ->  --> Éxito al obtener id y titulo de las series
+[WRN] -> 2021-05-26 10:50:53 ->  --> Login Failed
+[INF] -> 2021-05-26 10:50:56 ->  --> Login successfull
+[INF] -> 2021-05-26 10:50:56 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:58 ->  --> Éxito al obtener información de Usuario con id 4
+[INF] -> 2021-05-26 10:50:58 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:50:59 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:51:08 ->  --> Éxito al obtener id y titulo de las series
+[WRN] -> 2021-05-26 10:52:25 ->  --> Login Failed
+[INF] -> 2021-05-26 10:52:27 ->  --> Login successfull
+[INF] -> 2021-05-26 10:52:28 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:52:30 ->  --> Éxito al obtener información de Usuario con id 4
+[INF] -> 2021-05-26 10:52:30 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:52:30 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:52:35 ->  --> Login successfull
+[INF] -> 2021-05-26 10:52:35 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:52:37 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 10:52:41 ->  --> Éxito al borrar el usuario con id 4
+[INF] -> 2021-05-26 10:55:18 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:09:02 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:09:14 ->  --> Login successfull
+[INF] -> 2021-05-26 11:09:15 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:09:16 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:09:16 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:09:17 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:09:25 ->  --> Login successfull
+[INF] -> 2021-05-26 11:09:25 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:09:26 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:09:26 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:09:28 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:13:18 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:13:23 ->  --> Login successfull
+[INF] -> 2021-05-26 11:13:23 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:13:24 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:13:24 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:14:26 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:14:26 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:14:54 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:14:54 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:15:07 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:15:07 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:15:46 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:15:46 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:16:21 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:16:21 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:17:01 ->  --> Actualización de contraseña con éxito del usuario 2
+[INF] -> 2021-05-26 11:17:02 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:17:05 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:17:13 ->  --> Login successfull
+[INF] -> 2021-05-26 11:17:13 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:17:47 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:17:47 ->  --> Éxito al obtener información de Usuario con id 2
+[INF] -> 2021-05-26 11:17:49 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:17:57 ->  --> Login successfull
+[INF] -> 2021-05-26 11:17:57 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:18:00 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:18:03 ->  --> Éxito al obtener datos de la review con id 1
+[INF] -> 2021-05-26 11:18:03 ->  --> Éxito al obtener datos de la review con id 1
+[INF] -> 2021-05-26 11:18:16 ->  --> Éxito al actualizar los datos de la review 1
+[INF] -> 2021-05-26 11:20:10 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:21:33 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:21:44 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:24:03 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:24:18 ->  --> Éxito al obtener id y titulo de las series
+[INF] -> 2021-05-26 11:24:57 ->  --> Éxito al obtener id y titulo de las series

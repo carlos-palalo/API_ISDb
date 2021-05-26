@@ -92,6 +92,7 @@ namespace API_ISDb.Services
             if (v_review != null)
             {
                 _context.Entry(v_review).CurrentValues.SetValues(review);
+                _context.Update(v_review);
                 _context.SaveChanges();
                 return true;
             }

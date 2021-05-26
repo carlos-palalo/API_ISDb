@@ -90,6 +90,7 @@ namespace API_ISDb.Services
             if (v_genero != null)
             {
                 _context.Entry(v_genero).CurrentValues.SetValues(genero);
+                _context.Update(v_genero);
                 _context.SaveChanges();
                 return true;
             }

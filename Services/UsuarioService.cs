@@ -76,6 +76,7 @@ namespace API_ISDb.Services
             {
                 //usuario.Password = Encrypt.GetSHA256(usuario.Password);
                 _context.Entry(v_usuario).CurrentValues.SetValues(usuario);
+                _context.Update(v_usuario);
                 _context.SaveChanges();
                 return true;
             }

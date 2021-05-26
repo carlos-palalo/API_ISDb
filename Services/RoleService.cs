@@ -68,6 +68,7 @@ namespace API_ISDb.Services
             if (v_role != null)
             {
                 _context.Entry(v_role).CurrentValues.SetValues(role);
+                _context.Update(v_role);
                 _context.SaveChanges();
                 return true;
             }

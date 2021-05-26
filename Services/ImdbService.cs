@@ -102,7 +102,7 @@ namespace API_ISDb.Services
 
             foreach (Item item in responseTop250.items)
             {
-                if (cont == 41)
+                if (cont == 3)
                     return true;
 
                 Serie ser = _serie.Search(item.title);

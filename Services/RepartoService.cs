@@ -133,6 +133,7 @@ namespace API_ISDb.Services
             if (v_reparto != null)
             {
                 _context.Entry(v_reparto).CurrentValues.SetValues(reparto);
+                _context.Update(v_reparto);
                 _context.SaveChanges();
                 return true;
             }

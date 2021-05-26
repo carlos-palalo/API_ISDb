@@ -75,7 +75,6 @@ namespace API_ISDb.Controllers
         /// <response code="403">Forbidden Access</response>
         /// <response code="500">Internal Server Error</response>
         [HttpGet("generatebbdd/")]
-        [AllowAnonymous]
         public ActionResult GenerateBBDD()
         {
             try

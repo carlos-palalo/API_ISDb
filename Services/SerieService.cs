@@ -108,6 +108,7 @@ namespace API_ISDb.Services
             if (v_serie != null)
             {
                 _context.Entry(v_serie).CurrentValues.SetValues(serie);
+                _context.Update(v_serie);
                 _context.SaveChanges();
                 return true;
             }
