@@ -1,38 +1,26 @@
 ﻿using API_ISDb.Examples;
 using API_ISDb.Interfaces;
-using API_ISDb.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Controllers
 {
     /// <summary>
-    /// Controller Login
+    /// LoginController
     /// </summary>
     public class LoginController : BaseController
     {
-        #region Property  
-        /// <summary>  
-        /// Property Declaration  
-        /// </summary>  
-        /// <returns></returns>  
-        private IUsuarioService _user;
-        #endregion
+        private readonly IUsuarioService _user;
 
-        #region Contructor Injector  
-        /// <summary>  
-        /// Constructor Injection to access all methods or simply DI(Dependency Injection)  
-        /// </summary>  
+        /// <summary>
+        /// Inyección dependencias
+        /// </summary>
+        /// <param name="usuarioService"></param>
         public LoginController(IUsuarioService usuarioService)
         {
             _user = usuarioService;
         }
-        #endregion
 
         #region Login Validation  
         /// <summary>
@@ -60,17 +48,18 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Usuario usuario = new Usuario();
-                    usuario.Username = users.Username;
-                    usuario.Password = users.Password;
+                    Usuario usuario = new Usuario
+                    {
+                        Username = users.Username,
+                        Password = users.Password
+                    };
 
+                    // Comprueba si existe el usuario y devuelve el token generado
                     string response = _user.login(usuario);
 
                     if (!response.Equals(""))
                     {
-                        Usuario user = _user.GetCurrentUser(usuario);
                         Program._log.Information("Login successfull");
-                        //return Ok(new { username = user.Username, tipo = user.Tipo, token = response });
                         return Ok(response);
                     }
                     else
@@ -88,8 +77,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -122,17 +113,19 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Usuario usuario = new Usuario();
-                    usuario.Username = user.Username;
-                    usuario.Password = user.Password;
-                    usuario.Email = user.Email;
-                    usuario.Tipo = "normal";
+                    Usuario usuario = new Usuario
+                    {
+                        Username = user.Username,
+                        Password = user.Password,
+                        Email = user.Email,
+                        Tipo = "normal"
+                    };
 
+                    // Añade al usuario y devuelve el token generado
                     string token = _user.register(usuario);
                     if (!token.Equals(""))
                     {
                         Program._log.Information("Register successfull");
-                        //return Ok(new { username = usuario.Username, tipo = usuario.Tipo, token = token });
                         return Ok(token);
                     }
                     else
@@ -150,8 +143,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }

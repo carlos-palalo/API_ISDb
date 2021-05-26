@@ -1,55 +1,32 @@
 ﻿using API_ISDb.Interfaces;
 using API_ISDb.Models;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// GeneralService
     /// </summary>
     public class GeneralService : IGeneralService
     {
-        private proyectoContext _context;
-        private ISerieService _serie;
-        private IGeneroService _genero;
-        private ISerieGeneroService _serieGenero;
-        private ISerieRepartoService _serieReparto;
-        private IRepartoService _reparto;
-        private IRepartoRoleService _repartoRole;
-        private IRoleService _role;
-        private IReviewService _review;
+        private readonly proyectoContext _context;
+        private readonly ISerieService _serie;
+        private readonly IGeneroService _genero;
+        private readonly IRepartoService _reparto;
+        private readonly IReviewService _review;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="serie"></param>
-        /// <param name="genero"></param>
-        /// <param name="serieGenero"></param>
-        /// <param name="serieReparto"></param>
-        /// <param name="reparto"></param>
-        /// <param name="repartoRole"></param>
-        /// <param name="role"></param>
-        /// <param name="review"></param>
-        public GeneralService(proyectoContext context, ISerieService serie, IGeneroService genero, ISerieGeneroService serieGenero, ISerieRepartoService serieReparto, IRepartoService reparto, IRepartoRoleService repartoRole, IRoleService role, IReviewService review)
+        public GeneralService(proyectoContext context, ISerieService serie, IGeneroService genero, IRepartoService reparto, IReviewService review)
         {
             _context = context;
             _serie = serie;
             _genero = genero;
-            _serieGenero = serieGenero;
-            _serieReparto = serieReparto;
             _reparto = reparto;
-            _repartoRole = repartoRole;
-            _role = role;
             _review = review;
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una colección de Series
         /// </summary>
         /// <returns></returns>
         public ICollection<Serie> GetAll()
@@ -58,7 +35,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo toda la información disponible de una serie
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
@@ -66,24 +43,25 @@ namespace API_ISDb.Services
         {
             Serie series = _serie.GetSerie(serie);
 
-            InfoSerie info = new InfoSerie();
-            info.IdSerie = series.IdSerie;
-            info.Titulo = series.Titulo;
-            info.Poster = series.Poster;
-            info.Year = series.Year;
-            info.Sinopsis = series.Sinopsis;
-            info.Trailer = series.Trailer;
-            info.Generos = _genero.GetGeneros(serie);
-            info.ListaReparto = _reparto.GetRepartos(serie);
-            info.ListaReview = _review.GetListaReviews(serie);
+            InfoSerie info = new InfoSerie
+            {
+                IdSerie = series.IdSerie,
+                Titulo = series.Titulo,
+                Poster = series.Poster,
+                Year = series.Year,
+                Sinopsis = series.Sinopsis,
+                Trailer = series.Trailer,
+                Generos = _genero.GetGeneros(serie),
+                ListaReparto = _reparto.GetRepartos(serie),
+                ListaReview = _review.GetListaReviews(serie)
+            };
 
             return info;
         }
 
         /// <summary>
-        /// 
+        /// Obtengo el id y nombre de todas las series
         /// </summary>
-        /// <param name="serie"></param>
         /// <returns></returns>
         public IEnumerable<SearchSerie> SearchSerie()
         {

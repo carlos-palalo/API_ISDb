@@ -1,7 +1,9 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+
+// Código generado automáticamente por EF Tools junto a las clases a las que hace referencia
+// Permite ingeniería directa e inversa => SQL to Model && Model to SQL
+// Scaffold-DbContext "server=localhost;port=3306;user=root;password=yourpassword;database=test_scaffolding" MySql.Data.EntityFrameworkCore -OutputDir DataAccess\DataObjects -f
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:

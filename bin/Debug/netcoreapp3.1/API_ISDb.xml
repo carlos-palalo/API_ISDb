@@ -6,12 +6,12 @@
     <members>
         <member name="T:API_ISDb.Controllers.AdminController">
             <summary>
-            Controllador al que accede sólo el Admin
+            AdminController
             </summary>
         </member>
         <member name="M:API_ISDb.Controllers.AdminController.#ctor(API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IRepartoRoleService,API_ISDb.Interfaces.IReviewService,API_ISDb.Interfaces.IRoleService,API_ISDb.Interfaces.ISerieGeneroService,API_ISDb.Interfaces.ISerieRepartoService,API_ISDb.Interfaces.IUsuarioService,API_ISDb.Interfaces.IImdbService)">
             <summary>
-            Admin controller constructor
+            Inyección dependencias
             </summary>
             <param name="serie"></param>
             <param name="genero"></param>
@@ -810,18 +810,16 @@
         </member>
         <member name="T:API_ISDb.Controllers.GeneralController">
             <summary>
-            Controlador al que accede cualquier usuario
+            GeneralController
             </summary>
         </member>
-        <member name="M:API_ISDb.Controllers.GeneralController.#ctor(API_ISDb.Interfaces.IUsuarioService,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneralService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IReviewService)">
+        <member name="M:API_ISDb.Controllers.GeneralController.#ctor(API_ISDb.Interfaces.IUsuarioService,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneralService,API_ISDb.Interfaces.IReviewService)">
             <summary>
-            General Controller constructor
+            Inyección dependencias
             </summary>
             <param name="user"></param>
             <param name="serie"></param>
             <param name="general"></param>
-            <param name="genero"></param>
-            <param name="reparto"></param>
             <param name="review"></param>
         </member>
         <member name="M:API_ISDb.Controllers.GeneralController.GetAllSeries">
@@ -903,19 +901,14 @@
         </member>
         <member name="T:API_ISDb.Controllers.LoginController">
             <summary>
-            Controller Login
+            LoginController
             </summary>
         </member>
-        <member name="F:API_ISDb.Controllers.LoginController._user">
-            <summary>  
-            Property Declaration  
-            </summary>  
-            <returns></returns>  
-        </member>
         <member name="M:API_ISDb.Controllers.LoginController.#ctor(API_ISDb.Interfaces.IUsuarioService)">
-            <summary>  
-            Constructor Injection to access all methods or simply DI(Dependency Injection)  
-            </summary>  
+            <summary>
+            Inyección dependencias
+            </summary>
+            <param name="usuarioService"></param>
         </member>
         <member name="M:API_ISDb.Controllers.LoginController.DoLogin(API_ISDb.Examples.ELogin)">
             <summary>
@@ -959,150 +952,114 @@
         </member>
         <member name="P:API_ISDb.Program.MyArchiveHooks">
             <summary>
-            
+            Cada x tiempo (especificado en appsettings.json) se comprimen los archivos en Logs y se meten en app.log
             </summary>
         </member>
         <member name="T:API_ISDb.Services.GeneralService">
             <summary>
-            
+            GeneralService
             </summary>
-        </member>
-        <member name="M:API_ISDb.Services.GeneralService.#ctor(API_ISDb.proyectoContext,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.ISerieGeneroService,API_ISDb.Interfaces.ISerieRepartoService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IRepartoRoleService,API_ISDb.Interfaces.IRoleService,API_ISDb.Interfaces.IReviewService)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="serie"></param>
-            <param name="genero"></param>
-            <param name="serieGenero"></param>
-            <param name="serieReparto"></param>
-            <param name="reparto"></param>
-            <param name="repartoRole"></param>
-            <param name="role"></param>
-            <param name="review"></param>
         </member>
         <member name="M:API_ISDb.Services.GeneralService.GetAll">
             <summary>
-            
+            Obtengo una colección de Series
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneralService.GetInfoSerie(System.Int32)">
             <summary>
-            
+            Obtengo toda la información disponible de una serie
             </summary>
             <param name="serie"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneralService.SearchSerie">
             <summary>
-            
+            Obtengo el id y nombre de todas las series
             </summary>
-            <param name="serie"></param>
             <returns></returns>
         </member>
         <member name="T:API_ISDb.Services.GeneroService">
             <summary>
-            
+            GeneroService
             </summary>
-        </member>
-        <member name="M:API_ISDb.Services.GeneroService.#ctor(API_ISDb.proyectoContext,API_ISDb.Interfaces.ISerieGeneroService)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="serieGenero"></param>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.GetAll">
             <summary>
-            
+            Obtengo colección de Generos
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.GetGenero(System.Int32)">
             <summary>
-            
+            Obtengo un género en concreto
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.GetGeneros(System.Int32)">
             <summary>
-            
+            Obtengo los géneros relacionados con una serie
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.PostGenero(API_ISDb.Genero)">
             <summary>
-            
+            Añado un genero comprobando existencia en Db y lo devuelvo
             </summary>
             <param name="genero"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.PutGenero(API_ISDb.Genero)">
             <summary>
-            
+            Actualizo los datos de un genero
             </summary>
             <param name="genero"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.DeleteGenero(System.Int32)">
             <summary>
-            
+            Elimino un género
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.GeneroService.Search(System.String)">
             <summary>
-            
+            Busco un género dada una cadena
             </summary>
             <param name="cad"></param>
             <returns></returns>
         </member>
         <member name="T:API_ISDb.Services.ImdbService">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:API_ISDb.Services.ImdbService.#ctor(API_ISDb.proyectoContext,Microsoft.Extensions.Configuration.IConfiguration,API_ISDb.Interfaces.ISerieService,API_ISDb.Interfaces.IGeneroService,API_ISDb.Interfaces.IRepartoService,API_ISDb.Interfaces.IRepartoRoleService,API_ISDb.Interfaces.IRoleService,API_ISDb.Interfaces.ISerieGeneroService,API_ISDb.Interfaces.ISerieRepartoService)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="config"></param>
-            <param name="serie"></param>
-            <param name="genero"></param>
-            <param name="reparto"></param>
-            <param name="repartoRole"></param>
-            <param name="role"></param>
-            <param name="serieGenero"></param>
-            <param name="serieReparto"></param>
+             <summary>
+            Consultar API IMDb e insertar datos obtenidos
+             </summary>
         </member>
         <member name="M:API_ISDb.Services.ImdbService.Request(System.String)">
             <summary>
-            
+            HTTP Request
             </summary>
             <param name="url"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ImdbService.GenerateBBDD">
             <summary>
-            
+            Inserta en las tablas
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ImdbService.WriteBBDD(System.String)">
             <summary>
-            
+            Escribe en BBDD los datos obtenidos
             </summary>
             <param name="infoserie"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ImdbService.WriteItem(System.Collections.Generic.List{API_ISDb.Models.RequestSerie.Item},API_ISDb.Serie,System.String)">
             <summary>
-            
+            Inserta directores y escritores
             </summary>
             <param name="items"></param>
             <param name="ser"></param>
@@ -1110,7 +1067,7 @@
         </member>
         <member name="M:API_ISDb.Services.ImdbService.WriteActor(System.Collections.Generic.List{API_ISDb.Models.RequestSerie.Actor},API_ISDb.Serie,System.String)">
             <summary>
-            
+            Inserta los actores
             </summary>
             <param name="items"></param>
             <param name="ser"></param>
@@ -1118,31 +1075,31 @@
         </member>
         <member name="M:API_ISDb.Services.ImdbService.WriteGenero(System.Collections.Generic.List{API_ISDb.Models.RequestSerie.GenreList},API_ISDb.Serie)">
             <summary>
-            
+            Inserta los generos
             </summary>
             <param name="items"></param>
             <param name="ser"></param>
         </member>
         <member name="T:API_ISDb.Services.RepartoRoleService">
             <summary>
-            
+            RepartoRoleService
             </summary>
         </member>
         <member name="M:API_ISDb.Services.RepartoRoleService.#ctor(API_ISDb.proyectoContext)">
             <summary>
-            
+            Inyección dependencias
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:API_ISDb.Services.RepartoRoleService.GetAll">
             <summary>
-            
+            Obtengo la colección de RepartoRole
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RepartoRoleService.GetRepartoRole(System.Int32,System.Int32)">
             <summary>
-            
+            Obtengo una fila de RepartoRole
             </summary>
             <param name="reparto"></param>
             <param name="role"></param>
@@ -1150,14 +1107,14 @@
         </member>
         <member name="M:API_ISDb.Services.RepartoRoleService.PostRepartoRole(API_ISDb.RepartoRole)">
             <summary>
-            
+            Añado una fila a RepartoRole si no existe ya
             </summary>
             <param name="repartoRole"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RepartoRoleService.PutRepartoRole(API_ISDb.RepartoRole,System.Int32,System.Int32)">
             <summary>
-            
+            Actualizo los datos de una fila de RepartoRole
             </summary>
             <param name="repartoRole"></param>
             <param name="reparto"></param>
@@ -1166,7 +1123,7 @@
         </member>
         <member name="M:API_ISDb.Services.RepartoRoleService.DeleteRepartoRole(System.Int32,System.Int32)">
             <summary>
-            
+            Borro una fila de RepartoRole
             </summary>
             <param name="reparto"></param>
             <param name="role"></param>
@@ -1174,187 +1131,187 @@
         </member>
         <member name="T:API_ISDb.Services.RepartoService">
             <summary>
-            
+            RepartoService
             </summary>
         </member>
         <member name="M:API_ISDb.Services.RepartoService.#ctor(API_ISDb.proyectoContext)">
             <summary>
-            
+            Inyección dependencias
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:API_ISDb.Services.RepartoService.GetAll">
             <summary>
-            
+            Obtengo colección de Reparto 
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RepartoService.GetReparto(System.Int32)">
             <summary>
-            
+            Obtengo una fila de Reparto
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:API_ISDb.Services.RepartoService.GetRepartoSerie(System.Int32)">
+        <member name="M:API_ISDb.Services.RepartoService.GetRepartos(System.Int32)">
             <summary>
-            
+            Obtengo todos los datos del Reparto de una serie
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RepartoService.PostReparto(API_ISDb.Reparto)">
             <summary>
-            
+            Añado un reparto si no existe ya
             </summary>
             <param name="reparto"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RepartoService.PutReparto(API_ISDb.Reparto)">
             <summary>
-            
+            Actualizo los datos de un reparto
             </summary>
             <param name="reparto"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RepartoService.DeleteReparto(System.Int32)">
             <summary>
-            
+            Borro un reparto
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RepartoService.Search(System.String)">
             <summary>
-            
+            Busco un reparto que coincida con la cad
             </summary>
             <param name="cad"></param>
             <returns></returns>
         </member>
         <member name="T:API_ISDb.Services.ReviewService">
             <summary>
-            
+            ReviewService
             </summary>
         </member>
         <member name="M:API_ISDb.Services.ReviewService.#ctor(API_ISDb.proyectoContext)">
             <summary>
-            
+            Inyección dependencias
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:API_ISDb.Services.ReviewService.GetAll">
             <summary>
-            
+            Obtengo colección de Reviews
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ReviewService.GetReview(System.Int32)">
             <summary>
-            
+            Obtengo una review
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ReviewService.GetListaReviews(System.Int32)">
             <summary>
-            
+            Obtengo una lista de reviews de una serie
             </summary>
             <param name="serie"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ReviewService.PostReview(API_ISDb.Review)">
             <summary>
-            
+            Añado una review
             </summary>
             <param name="review"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ReviewService.PutReview(API_ISDb.Review)">
             <summary>
-            
+            Actualizo una review
             </summary>
             <param name="review"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.ReviewService.DeleteReview(System.Int32)">
             <summary>
-            
+            Borro una review
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="T:API_ISDb.Services.RoleService">
             <summary>
-            
+            RoleService
             </summary>
         </member>
         <member name="M:API_ISDb.Services.RoleService.#ctor(API_ISDb.proyectoContext)">
             <summary>
-            
+            Inyección dependencias
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:API_ISDb.Services.RoleService.GetAll">
             <summary>
-            
+            Obtengo colección de Role
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RoleService.GetRole(System.Int32)">
             <summary>
-            
+            Obtengo una fila de Role
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RoleService.PostRole(API_ISDb.Role)">
             <summary>
-            
+            Añado una fila a Role
             </summary>
             <param name="role"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RoleService.PutRole(API_ISDb.Role)">
             <summary>
-            
+            Actualizo una fila de Role
             </summary>
             <param name="role"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RoleService.DeleteRole(System.Int32)">
             <summary>
-            
+            Borro una fila de Role
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.RoleService.Search(System.String)">
             <summary>
-            
+            Busco un Role que corresponda con la cad
             </summary>
             <param name="cad"></param>
             <returns></returns>
         </member>
         <member name="T:API_ISDb.Services.SerieGeneroService">
             <summary>
-            
+            SerieGeneroService
             </summary>
         </member>
         <member name="M:API_ISDb.Services.SerieGeneroService.#ctor(API_ISDb.proyectoContext)">
             <summary>
-            
+            Inyección dependencias
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:API_ISDb.Services.SerieGeneroService.GetAll">
             <summary>
-            
+            Obtengo colección de SerieGenero
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieGeneroService.GetSerieGenero(System.Int32,System.Int32)">
             <summary>
-            
+            Obtengo una fila de SerieGenero
             </summary>
             <param name="serie"></param>
             <param name="genero"></param>
@@ -1362,14 +1319,14 @@
         </member>
         <member name="M:API_ISDb.Services.SerieGeneroService.PostSerieGenero(API_ISDb.SerieGenero)">
             <summary>
-            
+            Añado una fila a SerieGenero
             </summary>
             <param name="serieGenero"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieGeneroService.PutSerieGenero(API_ISDb.SerieGenero,System.Int32,System.Int32)">
             <summary>
-            
+            Actualizo una fila de SerieGenero
             </summary>
             <param name="serieGenero"></param>
             <param name="serie"></param>
@@ -1378,7 +1335,7 @@
         </member>
         <member name="M:API_ISDb.Services.SerieGeneroService.DeleteSerieGenero(System.Int32,System.Int32)">
             <summary>
-            
+            Borro una fila de SerieGenero
             </summary>
             <param name="serie"></param>
             <param name="genero"></param>
@@ -1386,24 +1343,24 @@
         </member>
         <member name="T:API_ISDb.Services.SerieRepartoService">
             <summary>
-            
+            SerieRepartoService
             </summary>
         </member>
         <member name="M:API_ISDb.Services.SerieRepartoService.#ctor(API_ISDb.proyectoContext)">
             <summary>
-            
+            Inyección dependencias
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:API_ISDb.Services.SerieRepartoService.GetAll">
             <summary>
-            
+            Obtengo colección de SerieReparto
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieRepartoService.GetSerieReparto(System.Int32,System.Int32)">
             <summary>
-            
+            Obtengo una fila de SerieReparto
             </summary>
             <param name="serie"></param>
             <param name="reparto"></param>
@@ -1411,14 +1368,14 @@
         </member>
         <member name="M:API_ISDb.Services.SerieRepartoService.PostSerieReparto(API_ISDb.SerieReparto)">
             <summary>
-            
+            Añado una fila a SerieReparto
             </summary>
             <param name="serieReparto"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieRepartoService.PutSerieReparto(API_ISDb.SerieReparto,System.Int32,System.Int32)">
             <summary>
-            
+            Actualizo fila de SerieReparto
             </summary>
             <param name="serieReparto"></param>
             <param name="serie"></param>
@@ -1427,7 +1384,7 @@
         </member>
         <member name="M:API_ISDb.Services.SerieRepartoService.DeleteSerieReparto(System.Int32,System.Int32)">
             <summary>
-            
+            Borro fila de SerieReparto
             </summary>
             <param name="serie"></param>
             <param name="reparto"></param>
@@ -1435,105 +1392,104 @@
         </member>
         <member name="T:API_ISDb.Services.SerieService">
             <summary>
-            
+            SerieService
             </summary>
         </member>
         <member name="M:API_ISDb.Services.SerieService.#ctor(API_ISDb.proyectoContext)">
             <summary>
-            
+            Inyección dependencias
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:API_ISDb.Services.SerieService.GetAll">
             <summary>
-            
+            Obtengo colección de series
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieService.GetSerie(System.Int32)">
             <summary>
-            
+            Obtengo una serie
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieService.SearchSerie">
             <summary>
-            
+            Obtengo una lista con el id y el nombre de las series
             </summary>
-            <param name="serie"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieService.Search(System.String)">
             <summary>
-            
+            Obtengo la serie que coincida con cad
             </summary>
             <param name="cad"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieService.PostSerie(API_ISDb.Serie)">
             <summary>
-            
+            Añado una serie
             </summary>
             <param name="serie"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieService.PutSerie(API_ISDb.Serie)">
             <summary>
-            
+            Actualizo una serie
             </summary>
             <param name="serie"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.SerieService.DeleteSerie(System.Int32)">
             <summary>
-            
+            Borro una serie
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="T:API_ISDb.Services.UsuarioService">
             <summary>
-            
+            UsuarioService
             </summary>
         </member>
         <member name="M:API_ISDb.Services.UsuarioService.#ctor(API_ISDb.proyectoContext,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
-            
+            Inyección dependencias
             </summary>
             <param name="context"></param>
             <param name="config"></param>
         </member>
         <member name="M:API_ISDb.Services.UsuarioService.GetAll">
             <summary>
-            
+            Obtengo todos los usuarios
             </summary>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.UsuarioService.GetUsuario(System.Int32)">
             <summary>
-            
+            Obtengo un usuario
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.UsuarioService.PostUsuario(API_ISDb.Usuario)">
             <summary>
-            
+            Añado un usuario
             </summary>
             <param name="usuario"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.UsuarioService.PutUsuario(API_ISDb.Usuario)">
             <summary>
-            
+            Actualizo un usuario
             </summary>
             <param name="usuario"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.UsuarioService.DeleteUsuario(System.Int32)">
             <summary>
-            
+            Borro un usuario
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -1547,16 +1503,30 @@
         </member>
         <member name="M:API_ISDb.Services.UsuarioService.register(API_ISDb.Usuario)">
             <summary>
-            
+            Registro de un usuario
             </summary>
             <param name="_users"></param>
             <returns></returns>
         </member>
         <member name="M:API_ISDb.Services.UsuarioService.CheckUser(API_ISDb.Usuario)">
             <summary>
-            
+            Compruebo existencial username y el email
             </summary>
             <param name="_users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.AuthenticateUser(API_ISDb.Usuario)">
+            <summary>
+            Autentificación de Usuario
+            </summary>
+            <param name="login"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API_ISDb.Services.UsuarioService.GenerateJSONWebToken(API_ISDb.Usuario)">
+            <summary>
+            Generación JWT
+            </summary>
+            <param name="userInfo"></param>
             <returns></returns>
         </member>
     </members>

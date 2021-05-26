@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// RepartoRoleService
     /// </summary>
     public class RepartoRoleService : IRepartoRoleService
     {
-        private proyectoContext _context;
+        private readonly proyectoContext _context;
 
         /// <summary>
-        /// 
+        /// Inyección dependencias
         /// </summary>
         /// <param name="context"></param>
         public RepartoRoleService(proyectoContext context)
@@ -23,7 +22,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo la colección de RepartoRole
         /// </summary>
         /// <returns></returns>
         public ICollection<RepartoRole> GetAll()
@@ -32,7 +31,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una fila de RepartoRole
         /// </summary>
         /// <param name="reparto"></param>
         /// <param name="role"></param>
@@ -43,7 +42,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado una fila a RepartoRole si no existe ya
         /// </summary>
         /// <param name="repartoRole"></param>
         /// <returns></returns>
@@ -59,7 +58,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo los datos de una fila de RepartoRole
         /// </summary>
         /// <param name="repartoRole"></param>
         /// <param name="reparto"></param>
@@ -70,6 +69,7 @@ namespace API_ISDb.Services
             var v_repartoRole = _context.RepartoRole.SingleOrDefault(a => a.RepartoIdReparto == reparto && a.RoleIdRole == role);
             if (v_repartoRole != null)
             {
+                //Primero borro la fila y luego la añado
                 DeleteRepartoRole(reparto, role);
                 PostRepartoRole(repartoRole);
                 _context.SaveChanges();
@@ -82,7 +82,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Borro una fila de RepartoRole
         /// </summary>
         /// <param name="reparto"></param>
         /// <param name="role"></param>

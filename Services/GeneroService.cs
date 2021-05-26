@@ -2,32 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// GeneroService
     /// </summary>
     public class GeneroService : IGeneroService
     {
-        private proyectoContext _context;
-        private ISerieGeneroService _serieGenero;
+        private readonly proyectoContext _context;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="serieGenero"></param>
-        public GeneroService(proyectoContext context, ISerieGeneroService serieGenero)
+        public GeneroService(proyectoContext context)
         {
             _context = context;
-            _serieGenero = serieGenero;
         }
 
-
         /// <summary>
-        /// 
+        /// Obtengo colección de Generos
         /// </summary>
         /// <returns></returns>
         public ICollection<Genero> GetAll()
@@ -36,7 +27,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo un género en concreto
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -46,7 +37,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo los géneros relacionados con una serie
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -64,7 +55,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado un genero comprobando existencia en Db y lo devuelvo
         /// </summary>
         /// <param name="genero"></param>
         /// <returns></returns>
@@ -80,7 +71,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo los datos de un genero
         /// </summary>
         /// <param name="genero"></param>
         /// <returns></returns>
@@ -101,7 +92,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Elimino un género
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -121,7 +112,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Busco un género dada una cadena
         /// </summary>
         /// <param name="cad"></param>
         /// <returns></returns>

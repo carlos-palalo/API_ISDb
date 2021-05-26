@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// RoleService
     /// </summary>
     public class RoleService : IRoleService
     {
-        private proyectoContext _context;
+        private readonly proyectoContext _context;
 
         /// <summary>
-        /// 
+        /// Inyección dependencias
         /// </summary>
         /// <param name="context"></param>
         public RoleService(proyectoContext context)
@@ -23,7 +22,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo colección de Role
         /// </summary>
         /// <returns></returns>
         public ICollection<Role> GetAll()
@@ -32,7 +31,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una fila de Role
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -42,7 +41,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado una fila a Role
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
@@ -58,7 +57,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo una fila de Role
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
@@ -79,7 +78,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Borro una fila de Role
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -99,7 +98,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Busco un Role que corresponda con la cad
         /// </summary>
         /// <param name="cad"></param>
         /// <returns></returns>

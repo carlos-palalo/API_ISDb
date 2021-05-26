@@ -12,6 +12,5 @@ namespace API_ISDb.Interfaces
         Usuario PostUsuario(Usuario usuario);
         bool PutUsuario(Usuario usuario);
         string register(Usuario _users);
-        Usuario GetCurrentUser(Usuario user);
     }
 }

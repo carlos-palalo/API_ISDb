@@ -1,7 +1,4 @@
-﻿using API_ISDb.Models;
-using System.Collections.Generic;
-
-namespace API_ISDb.Interfaces
+﻿namespace API_ISDb.Interfaces
 {
     public interface IImdbService
     {

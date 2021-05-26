@@ -17,18 +17,21 @@ namespace API_ISDb
 
         public static void Main(string[] args)
         {
+            // Configuro que se pueda acceder al archivo appsettings.json
             IConfiguration Configuration;
             var builder = new ConfigurationBuilder()
                             .SetBasePath(Directory.GetCurrentDirectory())
                             .AddJsonFile("appsettings.json");
             Configuration = builder.Build();
 
+            // Configuro el logger para poder usarlo en toda la aplicación sin volver a instanciarlo
             _log = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
                 .CreateLogger();
 
             try
             {
+                // Lanzo la aplicación
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
@@ -46,7 +49,7 @@ namespace API_ISDb
                 });
 
         /// <summary>
-        /// 
+        /// Cada x tiempo (especificado en appsettings.json) se comprimen los archivos en Logs y se meten en app.log
         /// </summary>
         public static ArchiveHooks MyArchiveHooks => new ArchiveHooks(CompressionLevel.Fastest, "./Logs/app.log");
     }

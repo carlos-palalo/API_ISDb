@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// ReviewService
     /// </summary>
     public class ReviewService : IReviewService
     {
-        private proyectoContext _context;
+        private readonly proyectoContext _context;
 
         /// <summary>
-        /// 
+        /// Inyección dependencias
         /// </summary>
         /// <param name="context"></param>
         public ReviewService(proyectoContext context)
@@ -23,7 +22,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo colección de Reviews
         /// </summary>
         /// <returns></returns>
         public ICollection<Review> GetAll()
@@ -32,7 +31,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una review
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -42,7 +41,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una lista de reviews de una serie
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
@@ -56,10 +55,10 @@ namespace API_ISDb.Services
                     (review, usuario) => new
                     {
                         Usuario = usuario.Username,
-                        Titulo = review.Titulo,
-                        Descripcion = review.Descripcion,
-                        Puntuacion = review.Puntuacion,
-                        Fecha = review.Fecha,
+                        review.Titulo,
+                        review.Descripcion,
+                        review.Puntuacion,
+                        review.Fecha,
                         IdSerie = review.SerieIdSerie
                     }
                 ).Where(item => item.IdSerie == serie)
@@ -70,7 +69,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado una review
         /// </summary>
         /// <param name="review"></param>
         /// <returns></returns>
@@ -82,7 +81,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo una review
         /// </summary>
         /// <param name="review"></param>
         /// <returns></returns>
@@ -103,7 +102,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Borro una review
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

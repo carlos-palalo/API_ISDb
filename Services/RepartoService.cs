@@ -3,19 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// RepartoService
     /// </summary>
     public class RepartoService : IRepartoService
     {
-        private proyectoContext _context;
+        private readonly proyectoContext _context;
 
         /// <summary>
-        /// 
+        /// Inyección dependencias
         /// </summary>
         /// <param name="context"></param>
         public RepartoService(proyectoContext context)
@@ -24,7 +23,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo colección de Reparto 
         /// </summary>
         /// <returns></returns>
         public ICollection<Reparto> GetAll()
@@ -33,7 +32,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una fila de Reparto
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -43,15 +42,10 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo todos los datos del Reparto de una serie
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Reparto GetRepartoSerie(int id)
-        {
-            return _context.Reparto.Find(id);
-        }
-
         public ICollection<ListaReparto> GetRepartos(int id)
         {
             /*
@@ -75,10 +69,12 @@ namespace API_ISDb.Services
 
             foreach (Reparto item in reparto.ToArray())
             {
-                ListaReparto lr = new ListaReparto();
-                lr.IdReparto = item.IdReparto;
-                lr.Name = item.Name;
-                lr.Foto = item.Foto;
+                ListaReparto lr = new ListaReparto
+                {
+                    IdReparto = item.IdReparto,
+                    Name = item.Name,
+                    Foto = item.Foto
+                };
                 lista.Add(lr.IdReparto, lr);
             }
 
@@ -88,8 +84,6 @@ namespace API_ISDb.Services
             var rr = _context.RepartoRole
                 .Where(i => r.Contains(i.RepartoIdReparto))
                 .ToArray();
-            //.Select(i => i.RoleIdRole)
-            //.ToList();
 
             var role = _context.Role.ToArray();
 
@@ -107,7 +101,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado un reparto si no existe ya
         /// </summary>
         /// <param name="reparto"></param>
         /// <returns></returns>
@@ -123,7 +117,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo los datos de un reparto
         /// </summary>
         /// <param name="reparto"></param>
         /// <returns></returns>
@@ -132,6 +126,7 @@ namespace API_ISDb.Services
             var v_reparto = _context.Reparto.SingleOrDefault(a => a.IdReparto == reparto.IdReparto);
             if (v_reparto != null)
             {
+                // A la entrada que corresponde con v_reparto, le asigno los valores de reparto
                 _context.Entry(v_reparto).CurrentValues.SetValues(reparto);
                 _context.Update(v_reparto);
                 _context.SaveChanges();
@@ -144,7 +139,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Borro un reparto
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -164,7 +159,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Busco un reparto que coincida con la cad
         /// </summary>
         /// <param name="cad"></param>
         /// <returns></returns>

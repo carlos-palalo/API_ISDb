@@ -8,20 +8,19 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// UsuarioService
     /// </summary>
     public class UsuarioService : IUsuarioService
     {
-        private proyectoContext _context;
-        private IConfiguration _config;
+        private readonly proyectoContext _context;
+        private readonly IConfiguration _config;
 
         /// <summary>
-        /// 
+        /// Inyección dependencias
         /// </summary>
         /// <param name="context"></param>
         /// <param name="config"></param>
@@ -32,7 +31,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo todos los usuarios
         /// </summary>
         /// <returns></returns>
         public ICollection<Usuario> GetAll()
@@ -41,7 +40,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo un usuario
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -51,7 +50,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado un usuario
         /// </summary>
         /// <param name="usuario"></param>
         /// <returns></returns>
@@ -65,7 +64,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo un usuario
         /// </summary>
         /// <param name="usuario"></param>
         /// <returns></returns>
@@ -87,7 +86,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Borro un usuario
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -124,13 +123,14 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Registro de un usuario
         /// </summary>
         /// <param name="_users"></param>
         /// <returns></returns>
         public string register(Usuario _users)
         {
             string response = "";
+            //Compruebo existencia de usuario, lo añado y genero el token
             Usuario checkuser = CheckUser(_users);
             if (checkuser == null)
             {
@@ -144,7 +144,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Compruebo existencial username y el email
         /// </summary>
         /// <param name="_users"></param>
         /// <returns></returns>
@@ -162,20 +162,17 @@ namespace API_ISDb.Services
             return null;
         }
 
-        public Usuario GetCurrentUser(Usuario user)
-        {
-            return AuthenticateUser(user);
-        }
-
         #region AuthenticateUser
-        // Hardcoded the User authentication  
+        /// <summary>
+        /// Autentificación de Usuario
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         private Usuario AuthenticateUser(Usuario login)
         {
             Usuario user = null;
 
             //Validate the User Credentials      
-            //Demo Purpose, I have Passed HardCoded User Information   
-
             foreach (Usuario x in _context.Usuario.ToArray())
             {
                 if (x.Username == login.Username && x.Password == Encrypt.GetSHA256(login.Password))
@@ -188,9 +185,14 @@ namespace API_ISDb.Services
         #endregion
 
         #region GenerateJWT  
-        // Generate Json Web Token Method  
+        /// <summary>
+        /// Generación JWT
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
         private string GenerateJSONWebToken(Usuario userInfo)
         {
+            // Parámetros almacenados en appsettings.json
             var secretKey = _config.GetSection("Jwt").GetSection("Key").Value;
             var audienceToken = _config.GetSection("Jwt").GetSection("Audience").Value;
             var issuerToken = _config.GetSection("Jwt").GetSection("Issuer").Value;
@@ -202,6 +204,7 @@ namespace API_ISDb.Services
 
             tipo = userInfo.Tipo.Equals("admin") ? "admin" : "normal";
 
+            // Parámetros personalizados del token. idUsuario, unique_name y role
             var claimsToken = new List<Claim>
             {
                 new Claim("idUsuario", userInfo.IdUsuario.ToString()),
@@ -209,13 +212,14 @@ namespace API_ISDb.Services
                 new Claim("role", tipo)
             };
 
+            // Creación del token
             var token = new JwtSecurityToken(
-                issuer: issuerToken,
-                audience: audienceToken,
-                notBefore: DateTime.Now,
-                expires: DateTime.Now.AddMinutes(Convert.ToInt32(expireTime)),
-                signingCredentials: credentials,
-                claims: claimsToken
+                issuer: issuerToken,        // Emisor del token          
+                audience: audienceToken,    // Receptor del token
+                notBefore: DateTime.Now,    // A partir de este momento, el token es válido
+                expires: DateTime.Now.AddMinutes(Convert.ToInt32(expireTime)),  // A partir de este momento, el token deja de ser válido
+                signingCredentials: credentials,    // Representa la firma, el id de la firma y el algoritmo de seguridad usado para crear el token
+                claims: claimsToken                 // Parámetros personalizados
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

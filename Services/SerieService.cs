@@ -1,21 +1,19 @@
 ﻿using API_ISDb.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// SerieService
     /// </summary>
     public class SerieService : ISerieService
     {
-        private proyectoContext _context;
+        private readonly proyectoContext _context;
 
         /// <summary>
-        /// 
+        /// Inyección dependencias
         /// </summary>
         /// <param name="context"></param>
         public SerieService(proyectoContext context)
@@ -24,7 +22,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo colección de series
         /// </summary>
         /// <returns></returns>
         public ICollection<Serie> GetAll()
@@ -33,7 +31,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una serie
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -43,9 +41,8 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una lista con el id y el nombre de las series
         /// </summary>
-        /// <param name="serie"></param>
         /// <returns></returns>
         public IEnumerable<SearchSerie> SearchSerie()
         {
@@ -67,7 +64,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo la serie que coincida con cad
         /// </summary>
         /// <param name="cad"></param>
         /// <returns></returns>
@@ -82,7 +79,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado una serie
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
@@ -98,7 +95,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo una serie
         /// </summary>
         /// <param name="serie"></param>
         /// <returns></returns>
@@ -119,7 +116,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Borro una serie
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

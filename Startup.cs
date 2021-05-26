@@ -7,10 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
@@ -30,7 +28,11 @@ namespace API_ISDb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ISerieService, SerieService>()
+            // Inyección de dependencias. 3 tipos diferenciados por ciclo de vida:
+            // - AddSingleton => Instancia creada una sola vez en toda la aplicación
+            // - AddScoped => Instancia creada una por petición
+            // - AddTransiet => Instancia creada cada vez que se necesita (por cada controlador/servicio que la necesite)
+            services.AddTransient<ISerieService, SerieService>()            
                 .AddTransient<IGeneroService, GeneroService>()
                 .AddTransient<IRepartoRoleService, RepartoRoleService>()
                 .AddTransient<IRepartoService, RepartoService>()
@@ -83,11 +85,13 @@ namespace API_ISDb
                     }
                 });
 
+                // File where we store all comments
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 swagger.IncludeXmlComments(xmlPath);
             });
 
+            // Configuración JWT
             services.AddAuthentication(option =>
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -120,7 +124,7 @@ namespace API_ISDb
 
             app.UseRouting();
 
-
+            // Al tener JWT no sería necesario
             app.UseCors(x => x
             .AllowAnyOrigin()
             .AllowAnyMethod()

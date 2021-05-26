@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// SerieRepartoService
     /// </summary>
     public class SerieRepartoService : ISerieRepartoService
     {
-        private proyectoContext _context;
+        private readonly proyectoContext _context;
 
         /// <summary>
-        /// 
+        /// Inyección dependencias
         /// </summary>
         /// <param name="context"></param>
         public SerieRepartoService(proyectoContext context)
@@ -23,7 +22,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo colección de SerieReparto
         /// </summary>
         /// <returns></returns>
         public ICollection<SerieReparto> GetAll()
@@ -32,7 +31,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una fila de SerieReparto
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="reparto"></param>
@@ -43,7 +42,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado una fila a SerieReparto
         /// </summary>
         /// <param name="serieReparto"></param>
         /// <returns></returns>
@@ -59,7 +58,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo fila de SerieReparto
         /// </summary>
         /// <param name="serieReparto"></param>
         /// <param name="serie"></param>
@@ -82,7 +81,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Borro fila de SerieReparto
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="reparto"></param>

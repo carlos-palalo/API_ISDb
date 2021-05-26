@@ -1,40 +1,30 @@
 ﻿using API_ISDb.Examples;
 using API_ISDb.Interfaces;
-using API_ISDb.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using static API_ISDb.Models.RequestSeries;
 
 namespace API_ISDb.Controllers
 {
     /// <summary>
-    /// Controllador al que accede sólo el Admin
+    /// AdminController
     /// </summary>
     [Authorize(Roles = "admin")]
     public class AdminController : BaseController
     {
-        private ISerieService _serie;
-        private IGeneroService _genero;
-        private IRepartoService _reparto;
-        private IRepartoRoleService _repartoRole;
-        private IReviewService _review;
-        private IRoleService _role;
-        private ISerieGeneroService _serieGenero;
-        private ISerieRepartoService _serieReparto;
-        private IUsuarioService _usuario;
-        private IImdbService _imdb;
+        private readonly ISerieService _serie;
+        private readonly IGeneroService _genero;
+        private readonly IRepartoService _reparto;
+        private readonly IRepartoRoleService _repartoRole;
+        private readonly IReviewService _review;
+        private readonly IRoleService _role;
+        private readonly ISerieGeneroService _serieGenero;
+        private readonly ISerieRepartoService _serieReparto;
+        private readonly IUsuarioService _usuario;
+        private readonly IImdbService _imdb;
 
         /// <summary>
-        /// Admin controller constructor
+        /// Inyección dependencias
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="genero"></param>
@@ -83,19 +73,21 @@ namespace API_ISDb.Controllers
                 if (response)
                 {
                     Program._log.Information("Éxito en la inserción de datos de IMDb en la BBDD.");
-                    return Ok();
+                    return Ok("Éxito en la inserción de datos de IMDb en la BBDD.");
                 }
                 else
                 {
                     Program._log.Error("Error en la inserción de datos de IMDb en la BBDD");
-                    return BadRequest();
+                    return BadRequest("Error en la inserción de datos de IMDb en la BBDD");
                 }
             }
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
 
@@ -122,8 +114,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -159,8 +153,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -194,12 +190,14 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Serie serie = new Serie();
-                    serie.Titulo = ser.Titulo;
-                    serie.Poster = ser.Poster;
-                    serie.Year = Convert.ToInt32(ser.Year);
-                    serie.Sinopsis = ser.Sinopsis;
-                    serie.Trailer = ser.Trailer;
+                    Serie serie = new Serie
+                    {
+                        Titulo = ser.Titulo,
+                        Poster = ser.Poster,
+                        Year = Convert.ToInt32(ser.Year),
+                        Sinopsis = ser.Sinopsis,
+                        Trailer = ser.Trailer
+                    };
 
                     var series = _serie.PostSerie(serie);
                     if (series != null)
@@ -222,8 +220,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -260,13 +260,15 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    Serie serie = new Serie();
-                    serie.IdSerie = Convert.ToInt32(ser.IdSerie);
-                    serie.Titulo = ser.Titulo;
-                    serie.Poster = ser.Poster;
-                    serie.Year = Convert.ToInt32(ser.Year);
-                    serie.Sinopsis = ser.Sinopsis;
-                    serie.Trailer = ser.Trailer;
+                    Serie serie = new Serie
+                    {
+                        IdSerie = Convert.ToInt32(ser.IdSerie),
+                        Titulo = ser.Titulo,
+                        Poster = ser.Poster,
+                        Year = Convert.ToInt32(ser.Year),
+                        Sinopsis = ser.Sinopsis,
+                        Trailer = ser.Trailer
+                    };
 
                     answer = _serie.PutSerie(serie);
                     if (answer)
@@ -289,8 +291,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -326,8 +330,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -353,8 +359,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -390,8 +398,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -424,10 +434,12 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Usuario usuario = new Usuario();
-                    usuario.Username = user.Username;
-                    usuario.Password = user.Password;
-                    usuario.Email = user.Email;
+                    Usuario usuario = new Usuario
+                    {
+                        Username = user.Username,
+                        Password = user.Password,
+                        Email = user.Email
+                    };
 
                     var usuarios = _usuario.PostUsuario(usuario);
                     if (usuarios != null)
@@ -450,8 +462,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -516,8 +530,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -553,8 +569,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -580,8 +598,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -617,8 +637,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -652,14 +674,16 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Review review = new Review();
-                    //review.IdReview = rev.IdReview;
-                    review.Titulo = rev.Titulo;
-                    review.Descripcion = rev.Descripcion;
-                    review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
-                    review.Fecha = DateTime.Now;
-                    review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
-                    review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
+                    Review review = new Review
+                    {
+                        //review.IdReview = rev.IdReview;
+                        Titulo = rev.Titulo,
+                        Descripcion = rev.Descripcion,
+                        Puntuacion = Convert.ToInt32(rev.Puntuacion),
+                        Fecha = DateTime.Now,
+                        UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario),
+                        SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie)
+                    };
 
                     var reviews = _review.PostReview(review);
                     if (reviews != null)
@@ -682,8 +706,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -721,14 +747,16 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    Review review = new Review();
-                    review.IdReview = Convert.ToInt32(rev.IdReview);
-                    review.Titulo = rev.Titulo;
-                    review.Descripcion = rev.Descripcion;
-                    review.Puntuacion = Convert.ToInt32(rev.Puntuacion);
-                    review.Fecha = rev.Fecha;
-                    review.UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario);
-                    review.SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie);
+                    Review review = new Review
+                    {
+                        IdReview = Convert.ToInt32(rev.IdReview),
+                        Titulo = rev.Titulo,
+                        Descripcion = rev.Descripcion,
+                        Puntuacion = Convert.ToInt32(rev.Puntuacion),
+                        Fecha = rev.Fecha,
+                        UsuarioIdUsuario = Convert.ToInt32(rev.UsuarioIdUsuario),
+                        SerieIdSerie = Convert.ToInt32(rev.SerieIdSerie)
+                    };
 
                     answer = _review.PutReview(review);
                     if (answer)
@@ -751,8 +779,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -788,8 +818,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -815,8 +847,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -852,8 +886,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -884,9 +920,11 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Genero genero = new Genero();
-                    //genero.IdGenero = gen.IdGenero;
-                    genero.Nombre = gen.Nombre;
+                    Genero genero = new Genero
+                    {
+                        //genero.IdGenero = gen.IdGenero;
+                        Nombre = gen.Nombre
+                    };
 
                     var generos = _genero.PostGenero(genero);
                     if (generos != null)
@@ -909,8 +947,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -943,9 +983,11 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    Genero genero = new Genero();
-                    genero.IdGenero = gen.IdGenero;
-                    genero.Nombre = gen.Nombre;
+                    Genero genero = new Genero
+                    {
+                        IdGenero = gen.IdGenero,
+                        Nombre = gen.Nombre
+                    };
 
                     answer = _genero.PutGenero(genero);
                     if (answer)
@@ -968,8 +1010,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1005,8 +1049,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1032,8 +1078,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1069,8 +1117,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1102,9 +1152,11 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    SerieGenero seriegenero = new SerieGenero();
-                    seriegenero.GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero);
-                    seriegenero.SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie);
+                    SerieGenero seriegenero = new SerieGenero
+                    {
+                        GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero),
+                        SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie)
+                    };
 
                     var serieGeneros = _serieGenero.PostSerieGenero(seriegenero);
                     if (serieGeneros != null)
@@ -1127,8 +1179,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1163,9 +1217,11 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    SerieGenero seriegenero = new SerieGenero();
-                    seriegenero.GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero);
-                    seriegenero.SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie);
+                    SerieGenero seriegenero = new SerieGenero
+                    {
+                        GeneroIdGenero = Convert.ToInt32(sergen.GeneroIdGenero),
+                        SerieIdSerie = Convert.ToInt32(sergen.SerieIdSerie)
+                    };
 
                     answer = _serieGenero.PutSerieGenero(seriegenero, serie, genero);
                     if (answer)
@@ -1188,8 +1244,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1226,8 +1284,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1254,8 +1314,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1279,8 +1341,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1316,8 +1380,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1349,10 +1415,12 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Reparto reparto = new Reparto();
-                    //reparto.IdReparto = rep.IdReparto;
-                    reparto.Name = rep.Name;
-                    reparto.Foto = rep.Foto;
+                    Reparto reparto = new Reparto
+                    {
+                        //reparto.IdReparto = rep.IdReparto;
+                        Name = rep.Name,
+                        Foto = rep.Foto
+                    };
 
                     var repartos = _reparto.PostReparto(reparto);
                     if (repartos != null)
@@ -1375,8 +1443,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1410,10 +1480,12 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    Reparto reparto = new Reparto();
-                    reparto.IdReparto = rep.IdReparto;
-                    reparto.Name = rep.Name;
-                    reparto.Foto = rep.Foto;
+                    Reparto reparto = new Reparto
+                    {
+                        IdReparto = rep.IdReparto,
+                        Name = rep.Name,
+                        Foto = rep.Foto
+                    };
 
                     answer = _reparto.PutReparto(reparto);
                     if (answer)
@@ -1436,8 +1508,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1473,8 +1547,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1500,8 +1576,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1537,8 +1615,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1569,9 +1649,11 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Role role = new Role();
-                    //role.IdRole = rol.IdRole;
-                    role.Nombre = rol.Nombre;
+                    Role role = new Role
+                    {
+                        //role.IdRole = rol.IdRole;
+                        Nombre = rol.Nombre
+                    };
 
                     var roles = _role.PostRole(role);
                     if (roles != null)
@@ -1594,8 +1676,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1628,9 +1712,11 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    Role role = new Role();
-                    role.IdRole = rol.IdRole;
-                    role.Nombre = rol.Nombre;
+                    Role role = new Role
+                    {
+                        IdRole = rol.IdRole,
+                        Nombre = rol.Nombre
+                    };
 
                     answer = _role.PutRole(role);
                     if (answer)
@@ -1653,8 +1739,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1690,8 +1778,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1717,8 +1807,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1755,8 +1847,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1788,9 +1882,11 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    RepartoRole repartoRole = new RepartoRole();
-                    repartoRole.RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto);
-                    repartoRole.RoleIdRole = Convert.ToInt32(repRole.RoleIdRole);
+                    RepartoRole repartoRole = new RepartoRole
+                    {
+                        RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto),
+                        RoleIdRole = Convert.ToInt32(repRole.RoleIdRole)
+                    };
 
                     var repartoRoles = _repartoRole.PostRepartoRole(repartoRole);
                     if (repartoRoles != null)
@@ -1813,8 +1909,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1849,9 +1947,11 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    RepartoRole repartoRole = new RepartoRole();
-                    repartoRole.RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto);
-                    repartoRole.RoleIdRole = Convert.ToInt32(repRole.RoleIdRole);
+                    RepartoRole repartoRole = new RepartoRole
+                    {
+                        RepartoIdReparto = Convert.ToInt32(repRole.RepartoIdReparto),
+                        RoleIdRole = Convert.ToInt32(repRole.RoleIdRole)
+                    };
 
                     answer = _repartoRole.PutRepartoRole(repartoRole, reparto, role);
                     if (answer)
@@ -1874,8 +1974,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1912,8 +2014,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1939,8 +2043,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -1977,8 +2083,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -2010,9 +2118,11 @@ namespace API_ISDb.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    SerieReparto serieReparto = new SerieReparto();
-                    serieReparto.SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie);
-                    serieReparto.RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto);
+                    SerieReparto serieReparto = new SerieReparto
+                    {
+                        SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie),
+                        RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto)
+                    };
 
                     var serieRepartos = _serieReparto.PostSerieReparto(serieReparto);
                     if (serieRepartos != null)
@@ -2035,8 +2145,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -2071,9 +2183,11 @@ namespace API_ISDb.Controllers
                 Boolean answer = false;
                 if (ModelState.IsValid)
                 {
-                    SerieReparto serieReparto = new SerieReparto();
-                    serieReparto.SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie);
-                    serieReparto.RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto);
+                    SerieReparto serieReparto = new SerieReparto
+                    {
+                        SerieIdSerie = Convert.ToInt32(serRep.SerieIdSerie),
+                        RepartoIdReparto = Convert.ToInt32(serRep.RepartoIdReparto)
+                    };
 
                     answer = _serieReparto.PutSerieReparto(serieReparto, serie, reparto);
                     if (answer)
@@ -2096,8 +2210,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }
@@ -2134,8 +2250,10 @@ namespace API_ISDb.Controllers
             catch (Exception ex)
             {
                 Program._log.Fatal("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                response.StatusCode = 500;
+                ObjectResult response = new ObjectResult("Msg: " + ex.Message + " StackTrace: " + ex.StackTrace)
+                {
+                    StatusCode = 500
+                };
                 return response;
             }
         }

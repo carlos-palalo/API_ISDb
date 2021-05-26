@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ISDb.Services
 {
     /// <summary>
-    /// 
+    /// SerieGeneroService
     /// </summary>
     public class SerieGeneroService : ISerieGeneroService
     {
-        private proyectoContext _context;
+        private readonly proyectoContext _context;
 
         /// <summary>
-        /// 
+        /// Inyección dependencias
         /// </summary>
         /// <param name="context"></param>
         public SerieGeneroService(proyectoContext context)
@@ -23,7 +22,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo colección de SerieGenero
         /// </summary>
         /// <returns></returns>
         public ICollection<SerieGenero> GetAll()
@@ -32,7 +31,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtengo una fila de SerieGenero
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="genero"></param>
@@ -43,7 +42,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Añado una fila a SerieGenero
         /// </summary>
         /// <param name="serieGenero"></param>
         /// <returns></returns>
@@ -59,7 +58,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Actualizo una fila de SerieGenero
         /// </summary>
         /// <param name="serieGenero"></param>
         /// <param name="serie"></param>
@@ -82,7 +81,7 @@ namespace API_ISDb.Services
         }
 
         /// <summary>
-        /// 
+        /// Borro una fila de SerieGenero
         /// </summary>
         /// <param name="serie"></param>
         /// <param name="genero"></param>
