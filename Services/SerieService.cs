@@ -50,7 +50,8 @@ namespace API_ISDb.Services
 
             var v_serie = _context.Serie
                 .ToArray()
-                .Select(x => new SearchSerie(){ 
+                .Select(x => new SearchSerie()
+                {
                     IdSerie = x.IdSerie,
                     Titulo = x.Titulo
                 });
@@ -70,7 +71,7 @@ namespace API_ISDb.Services
         /// <returns></returns>
         public Serie Search(string cad)
         {
-            var v_serie = _context.Serie.SingleOrDefault(a => a.Titulo.Contains(cad));
+            var v_serie = _context.Serie.SingleOrDefault(a => a.Titulo.Equals(cad));
             if (v_serie != null)
             {
                 return v_serie;

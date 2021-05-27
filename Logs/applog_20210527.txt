@@ -1,0 +1,8 @@
+[FTL] -> 2021-05-27 14:37:57 ->  --> Msg: Sequence contains more than one element StackTrace:    at System.Linq.ThrowHelper.ThrowMoreThanOneElementException()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at API_ISDb.Services.SerieService.Search(String cad) in C:\Users\CARLOS-PC\source\repos\API_ISDb\Services\SerieService.cs:line 73
+   at API_ISDb.Services.ImdbService.GenerateBBDD() in C:\Users\CARLOS-PC\source\repos\API_ISDb\Services\ImdbService.cs:line 90
+   at API_ISDb.Controllers.AdminController.GenerateBBDD() in C:\Users\CARLOS-PC\source\repos\API_ISDb\Controllers\AdminController.cs:line 72

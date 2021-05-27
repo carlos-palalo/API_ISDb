@@ -24,9 +24,7 @@ C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Microsoft.Ident
 C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
 C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
-C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Namotion.Reflection.dll
 C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
-C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\NJsonSchema.dll
 C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Serilog.dll
 C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Serilog.AspNetCore.dll
 C:\Users\CARLOS-PC\source\repos\API_ISDb\bin\Debug\netcoreapp3.1\Serilog.Enrichers.ClientInfo.dll
